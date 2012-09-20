@@ -210,57 +210,11 @@
 	TKDateInformation nextInfo = [nextMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	NSDate *localNextMonth = [NSDate dateFromDateInformation:nextInfo];
 	
-	
 	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:nextMonth startOnSunday:self.sunday];
 	NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
 	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:nextMonth marks:ar startDayOnSunday:self.sunday];
 	[newTile setTarget:self action:@selector(tile:)];
-	
-	
-	
-	int overlap =  0;
-	
-	if(isNext){
-		overlap = [newTile.monthDate isEqualToDate:[dates objectAtIndex:0]] ? 0 : 44;
-	}else{
-		overlap = [self.currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
-	}
-	
-	float y = isNext ? self.currentTile.bounds.size.height - overlap : newTile.bounds.size.height * -1 + overlap +2;
-	
-	newTile.frame = CGRectMake(0, y, newTile.frame.size.width, newTile.frame.size.height);
-	newTile.alpha = 0;
-	[self.tileBox addSubview:newTile];
 
-    self.userInteractionEnabled = NO;
-
-    [UIView animateWithDuration:0.1 animations:^{
-        newTile.alpha = 1;
-    }];
-
-    [UIView animateWithDuration:0.4 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        if (isNext) {
-            self.currentTile.frame = CGRectMake(0, -1 * self.currentTile.bounds.size.height + overlap + 2, self.currentTile.frame.size.width, self.currentTile.frame.size.height);
-       		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
-       		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
-       		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
-
-       		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
-       	} else {
-       		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
-       		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
-       		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
-            self.currentTile.frame = CGRectMake(0,  newTile.frame.size.height - overlap, self.currentTile.frame.size.width, self.currentTile.frame.size.height);
-
-       		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
-       	}
-    } completion:^(BOOL completed) {
-        self.userInteractionEnabled = YES;
-       	[self.oldTile removeFromSuperview];
-        self.oldTile = nil;
-    }];
-
-    self.oldTile = self.currentTile;
     self.currentTile = newTile;
 
 	_monthYear.text = [localNextMonth monthYearString];
@@ -307,9 +261,9 @@
                                                                               marks:data
                                                                    startDayOnSunday:self.sunday];
 		[newTile setTarget:self action:@selector(tile:)];
-		[self.currentTile removeFromSuperview];
+        
         self.currentTile = newTile;
-        [self.tileBox addSubview:self.currentTile];
+
 		self.tileBox.frame = CGRectMake(0, 44, newTile.frame.size.width, newTile.frame.size.height);
 		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
 
@@ -330,10 +284,7 @@
 	TKCalendarMonthTiles *refresh = [[TKCalendarMonthTiles alloc] initWithMonth:[self.currentTile monthDate] marks:ar startDayOnSunday:self.sunday];
 	[refresh setTarget:self action:@selector(tile:)];
 	
-	[self.tileBox addSubview:refresh];
-	[self.currentTile removeFromSuperview];
     self.currentTile = refresh;
-	
 }
 
 - (void) tile:(NSArray*)ar{
@@ -350,6 +301,62 @@
     if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
   	    [self.delegate calendarMonthView:self didSelectDate:[self dateSelected]];
 	
+}
+
+#pragma mark Properties
+
+- (void)setCurrentTile:(TKCalendarMonthTiles *)newTile {
+    if ([[_currentTile monthDate] isEqualToDate:[newTile monthDate]]) return;
+
+    TKCalendarMonthTiles *currentTile = _currentTile;
+
+    _currentTile = newTile;
+
+    BOOL isNext = [currentTile.monthDate compare:newTile.monthDate] == NSOrderedAscending;
+    NSDate *nextMonth = isNext ? [currentTile.monthDate nextMonth] : [currentTile.monthDate previousMonth];
+    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:nextMonth startOnSunday:self.sunday];
+
+    int overlap =  0;
+
+   	if(isNext){
+   		overlap = [newTile.monthDate isEqualToDate:[dates objectAtIndex:0]] ? 0 : 44;
+   	}else{
+   		overlap = [currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
+   	}
+
+   	float y = isNext ? currentTile.bounds.size.height - overlap : newTile.bounds.size.height * -1 + overlap +2;
+
+   	newTile.frame = CGRectMake(0, y, newTile.frame.size.width, newTile.frame.size.height);
+   	newTile.alpha = 0;
+   	[self.tileBox addSubview:newTile];
+
+    self.userInteractionEnabled = NO;
+
+    float animation = (currentTile == nil) ? 0 : 1;
+
+    [UIView animateWithDuration:animation * 0.1 animations:^{
+        newTile.alpha = 1;
+    }];
+
+    [UIView animateWithDuration:animation * 0.4 delay:animation * 0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        if (isNext) {
+            currentTile.frame = CGRectMake(0, -1 * currentTile.bounds.size.height + overlap + 2, currentTile.frame.size.width, currentTile.frame.size.height);
+       		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
+       		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
+       		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
+
+       		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
+       	} else {
+       		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
+       		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
+       		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
+            currentTile.frame = CGRectMake(0,  newTile.frame.size.height - overlap, currentTile.frame.size.width, currentTile.frame.size.height);
+
+       		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
+       	}
+    } completion:^(BOOL completed) {
+        self.userInteractionEnabled = YES;
+    }];
 }
 
 @end
