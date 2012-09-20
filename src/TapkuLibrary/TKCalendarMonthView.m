@@ -207,7 +207,7 @@
 
     self.currentTile = [self tilesForMonth:nextMonth];
 
-	_monthYear.text = [localNextMonth monthYearString];
+	self.monthYear.text = [localNextMonth monthYearString];
 }
 
 - (NSDate*) dateSelected{
