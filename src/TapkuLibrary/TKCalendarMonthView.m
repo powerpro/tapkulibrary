@@ -207,7 +207,7 @@
 	return localNextMonth;
 }
 
-- (void) changeMonthAnimation:(UIButton *)sender{
+- (void)changeMonth:(UIButton *)sender{
 	BOOL isNext = self.rightArrow == sender;
 	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
 	
@@ -221,19 +221,6 @@
     self.currentTile = newTile;
 
 	_monthYear.text = [localNextMonth monthYearString];
-}
-- (void) changeMonth:(UIButton *)sender{
-	NSDate *newDate = [self dateForMonthChange:sender];
-	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:newDate animated:YES] ) 
-		return;
-
-	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] ) 
-		[self.delegate calendarMonthView:self monthWillChange:newDate animated:YES];
-
-	[self changeMonthAnimation:sender];
-
-	if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
-		[self.delegate calendarMonthView:self monthDidChange:self.currentTile.monthDate animated:YES];
 }
 
 - (NSDate*) dateSelected{
@@ -250,14 +237,6 @@
 		[self.currentTile selectDay:info.day];
 		return;
 	}else {
-		
-		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:month animated:YES] )
-			return;
-		
-		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
-			[self.delegate calendarMonthView:self monthWillChange:month animated:YES];
-		
-		
 		NSArray *data = [self marksFromDataSourceForMonth:month];
 		TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month
                                                                               marks:data
@@ -272,11 +251,6 @@
 		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
 		self.monthYear.text = [date monthYearString];
 		[self.currentTile selectDay:info.day];
-		
-		if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
-			[self.delegate calendarMonthView:self monthDidChange:date animated:NO];
-		
-		
 	}
 }
 - (void) reload{
@@ -295,7 +269,7 @@
 
         [self changeMonth:b];
 
-		int day = [[ar objectAtIndex:0] intValue];
+        int day = [[ar objectAtIndex:0] intValue];
 		[self.currentTile selectDay:day];
 	}
 
@@ -310,6 +284,14 @@
     if ([[_currentTile monthDate] isEqualToDate:[newTile monthDate]]) return;
 
     TKCalendarMonthTiles *currentTile = _currentTile;
+    float animation = (currentTile == nil) ? 0 : 1;
+    BOOL shouldAnimate = animation > 0;
+
+    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:[newTile monthDate] animated:shouldAnimate] )
+   		return;
+
+   	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
+   		[self.delegate calendarMonthView:self monthWillChange:[newTile monthDate] animated:shouldAnimate];
 
     _currentTile = newTile;
 
@@ -333,8 +315,6 @@
 
     self.userInteractionEnabled = NO;
 
-    float animation = (currentTile == nil) ? 0 : 1;
-
     [UIView animateWithDuration:animation * 0.1 animations:^{
         newTile.alpha = 1;
     }];
@@ -357,6 +337,9 @@
        	}
     } completion:^(BOOL completed) {
         self.userInteractionEnabled = YES;
+
+        if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
+      	    [self.delegate calendarMonthView:self monthDidChange:[newTile monthDate] animated:shouldAnimate];
     }];
 }
 
