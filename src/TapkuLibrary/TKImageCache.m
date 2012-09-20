@@ -85,11 +85,6 @@
 	
 	return self;
 }
-- (void) dealloc{
-	dispatch_release(cache_queue);
-}
-
-
 
 - (UIImage*) imageForKey:(NSString*)key url:(NSURL*)url queueIfNeeded:(BOOL)queueIfNeeded{
 	return [self imageForKey:key url:url queueIfNeeded:queueIfNeeded tag:0];
