@@ -57,6 +57,9 @@
 @implementation TKCalendarMonthView
 
 - (void)setup {
+    self.currentTile = [[TKCalendarMonthTiles alloc] initWithMonth:[[NSDate date] firstOfMonth] marks:nil startDayOnSunday:self.sunday];
+	[self.currentTile setTarget:self action:@selector(tile:)];
+
     self.shadow = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Shadow.png")]];
 
     self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.currentTile.frame.size.height)];
@@ -81,6 +84,8 @@
   	self.monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
 
     self.topBackground =  [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Grid Top Bar.png")]];
+
+    self.backgroundColor = [UIColor grayColor];
 }
 
 - (id) init{
@@ -89,12 +94,7 @@
 }
 - (id) initWithSundayAsFirst:(BOOL)s{
 	if (!(self = [super initWithFrame:CGRectZero])) return nil;
-
-	self.backgroundColor = [UIColor grayColor];
-
     self.sunday = s;
-    self.currentTile = [[TKCalendarMonthTiles alloc] initWithMonth:[[NSDate date] firstOfMonth] marks:nil startDayOnSunday:self.sunday];
-	[self.currentTile setTarget:self action:@selector(tile:)];
 
     [self setup];
 	
