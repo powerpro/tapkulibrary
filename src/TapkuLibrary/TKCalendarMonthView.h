@@ -37,11 +37,7 @@
 @protocol TKCalendarMonthViewDelegate, TKCalendarMonthViewDataSource;
 
 /** `TKCalendarMonthView` imitates the month grid in the Calendar app on iPhone. */
-@interface TKCalendarMonthView : UIView {
-	TKCalendarMonthTiles *_currentTile, *_oldTile;
-	BOOL _sunday;
-}
-
+@interface TKCalendarMonthView : UIView
 
 /** Initialize a Calendar Month Grid.
  @param sunday Flag to setup the grid with Monday or Sunday as the leftmost day.
