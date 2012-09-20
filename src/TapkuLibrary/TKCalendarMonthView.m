@@ -49,7 +49,6 @@
 
 @property (nonatomic) BOOL sunday;
 @property (nonatomic, strong) TKCalendarMonthTiles *currentTile;
-@property (nonatomic, strong) TKCalendarMonthTiles *oldTile;
 
 @end
 
