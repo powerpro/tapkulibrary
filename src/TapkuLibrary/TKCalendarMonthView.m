@@ -234,50 +234,34 @@
 	newTile.frame = CGRectMake(0, y, newTile.frame.size.width, newTile.frame.size.height);
 	newTile.alpha = 0;
 	[self.tileBox addSubview:newTile];
-	
-	
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:0.1];
-	newTile.alpha = 1;
 
-	[UIView commitAnimations];
-	
-	
-	
-	self.userInteractionEnabled = NO;
-	
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDelegate:self];
-	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDidStopSelector:@selector(animationEnded)];
-	[UIView setAnimationDelay:0.1];
-	[UIView setAnimationDuration:0.4];
-	
-	
-	
-	if(isNext){
-		
-        self.currentTile.frame = CGRectMake(0, -1 * self.currentTile.bounds.size.height + overlap + 2, self.currentTile.frame.size.width, self.currentTile.frame.size.height);
-		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
-		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
-		
-		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
-		
-		
-	}else{
-		
-		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
-		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
-        self.currentTile.frame = CGRectMake(0,  newTile.frame.size.height - overlap, self.currentTile.frame.size.width, self.currentTile.frame.size.height);
-		
-		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
-		
-	}
-	
-	
-	[UIView commitAnimations];
+    self.userInteractionEnabled = NO;
+
+    [UIView animateWithDuration:0.1 animations:^{
+        newTile.alpha = 1;
+    }];
+
+    [UIView animateWithDuration:0.4 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        if (isNext) {
+            self.currentTile.frame = CGRectMake(0, -1 * self.currentTile.bounds.size.height + overlap + 2, self.currentTile.frame.size.width, self.currentTile.frame.size.height);
+       		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
+       		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
+       		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
+
+       		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
+       	} else {
+       		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
+       		self.tileBox.frame = CGRectMake(self.tileBox.frame.origin.x, self.tileBox.frame.origin.y, self.tileBox.frame.size.width, newTile.frame.size.height);
+       		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
+            self.currentTile.frame = CGRectMake(0,  newTile.frame.size.height - overlap, self.currentTile.frame.size.width, self.currentTile.frame.size.height);
+
+       		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
+       	}
+    } completion:^(BOOL completed) {
+        self.userInteractionEnabled = YES;
+       	[self.oldTile removeFromSuperview];
+        self.oldTile = nil;
+    }];
 
     self.oldTile = self.currentTile;
     self.currentTile = newTile;
@@ -301,11 +285,6 @@
 	if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
 		[self.delegate calendarMonthView:self monthDidChange:self.currentTile.monthDate animated:YES];
 
-}
-- (void) animationEnded{
-	self.userInteractionEnabled = YES;
-	[self.oldTile removeFromSuperview];
-    self.oldTile = nil;
 }
 
 - (NSDate*) dateSelected{
