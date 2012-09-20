@@ -91,13 +91,14 @@
 }
 - (id) initWithSundayAsFirst:(BOOL)s{
 	if (!(self = [super initWithFrame:CGRectZero])) return nil;
-    [self setup];
 
 	self.backgroundColor = [UIColor grayColor];
 
     self.sunday = s;
     self.currentTile = [[TKCalendarMonthTiles alloc] initWithMonth:[[NSDate date] firstOfMonth] marks:nil startDayOnSunday:self.sunday];
 	[self.currentTile setTarget:self action:@selector(tile:)];
+
+    [self setup];
 	
 	CGRect r = CGRectMake(0, 0, self.tileBox.bounds.size.width, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
 	self.frame = r;
