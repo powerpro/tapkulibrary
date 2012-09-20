@@ -192,6 +192,10 @@
 	return self;
 }
 
+- (NSArray *)marksFromDataSourceForMonth:(NSDate *)month {
+    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
+   	return [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
+}
 
 - (NSDate*) dateForMonthChange:(UIButton *)sender {
 	BOOL isNext = sender == self.rightArrow;
@@ -210,8 +214,7 @@
 	TKDateInformation nextInfo = [nextMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	NSDate *localNextMonth = [NSDate dateFromDateInformation:nextInfo];
 	
-	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:nextMonth startOnSunday:self.sunday];
-	NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
+	NSArray *ar = [self marksFromDataSourceForMonth:nextMonth];
 	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:nextMonth marks:ar startDayOnSunday:self.sunday];
 	[newTile setTarget:self action:@selector(tile:)];
 
@@ -255,8 +258,7 @@
 			[self.delegate calendarMonthView:self monthWillChange:month animated:YES];
 		
 		
-		NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
-		NSArray *data = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
+		NSArray *data = [self marksFromDataSourceForMonth:month];
 		TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month
                                                                               marks:data
                                                                    startDayOnSunday:self.sunday];
@@ -278,8 +280,7 @@
 	}
 }
 - (void) reload{
-	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:[self.currentTile monthDate] startOnSunday:self.sunday];
-	NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
+	NSArray *ar = [self marksFromDataSourceForMonth:[self.currentTile monthDate]];
 	
 	TKCalendarMonthTiles *refresh = [[TKCalendarMonthTiles alloc] initWithMonth:[self.currentTile monthDate] marks:ar startDayOnSunday:self.sunday];
 	[refresh setTarget:self action:@selector(tile:)];
