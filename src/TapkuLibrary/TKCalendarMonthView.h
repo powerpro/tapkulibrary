@@ -38,13 +38,8 @@
 
 /** `TKCalendarMonthView` imitates the month grid in the Calendar app on iPhone. */
 @interface TKCalendarMonthView : UIView {
-
-	TKCalendarMonthTiles *currentTile,*oldTile;
-	UIButton *leftArrow, *rightArrow;
-	UIImageView *topBackground, *shadow;
-	UILabel *monthYear;
-	BOOL sunday;
-
+	TKCalendarMonthTiles *_currentTile, *_oldTile;
+	BOOL _sunday;
 }
 
 
