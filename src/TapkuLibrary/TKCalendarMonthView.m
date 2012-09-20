@@ -366,14 +366,7 @@
 }
 
 - (void) tile:(NSArray*)ar{
-	
-	if([ar count] < 2){
-		
-		if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
-			[self.delegate calendarMonthView:self didSelectDate:[self dateSelected]];
-	
-	}else{
-		
+	if([ar count] >= 2){
 		int direction = [[ar lastObject] intValue];
 		UIButton *b = direction > 1 ? self.rightArrow : self.leftArrow;
 		
@@ -397,16 +390,13 @@
         
         NSDate *dateForMonth = [NSDate dateFromDateInformation:info  timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]; 
 		[_currentTile selectDay:day];
-		
-		
-		if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
-			[self.delegate calendarMonthView:self didSelectDate:dateForMonth];
-		
+
 		if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
 			[self.delegate calendarMonthView:self monthDidChange:dateForMonth animated:YES];
-
-		
 	}
+
+    if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
+  	    [self.delegate calendarMonthView:self didSelectDate:[self dateSelected]];
 	
 }
 
