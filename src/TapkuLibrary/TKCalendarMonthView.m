@@ -63,14 +63,12 @@
     self.tileBox.clipsToBounds = YES;
     
     self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
-  	self.rightArrow.tag = 1;
     self.rightArrow.accessibilityLabel = @"Next Month";
     [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:0];
     [self.rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
     self.rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
     
     self.leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
-  	self.leftArrow.tag = 0;
     self.leftArrow.accessibilityLabel = @"Previous Month";
     [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:0];
     [self.leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
@@ -195,8 +193,8 @@
 }
 
 
-- (NSDate*) dateForMonthChange:(UIView*)sender {
-	BOOL isNext = (sender.tag == 1);
+- (NSDate*) dateForMonthChange:(UIButton *)sender {
+	BOOL isNext = sender == self.rightArrow;
 	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
 	
 	TKDateInformation nextInfo = [nextMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
@@ -205,9 +203,8 @@
 	return localNextMonth;
 }
 
-- (void) changeMonthAnimation:(UIView*)sender{
-	
-	BOOL isNext = (sender.tag == 1);
+- (void) changeMonthAnimation:(UIButton *)sender{
+	BOOL isNext = self.rightArrow == sender;
 	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
 	
 	TKDateInformation nextInfo = [nextMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
