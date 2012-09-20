@@ -278,16 +278,11 @@
 	
 	
 	[UIView commitAnimations];
-	
-    self.currentTile = self.currentTile;
-    self.currentTile = newTile;
-	
-	
-	
-	_monthYear.text = [localNextMonth monthYearString];
-	
-	
 
+    self.oldTile = self.currentTile;
+    self.currentTile = newTile;
+
+	_monthYear.text = [localNextMonth monthYearString];
 }
 - (void) changeMonth:(UIButton *)sender{
 	
@@ -309,8 +304,8 @@
 }
 - (void) animationEnded{
 	self.userInteractionEnabled = YES;
-	[self.currentTile removeFromSuperview];
-    self.currentTile = nil;
+	[self.oldTile removeFromSuperview];
+    self.oldTile = nil;
 }
 
 - (NSDate*) dateSelected{
