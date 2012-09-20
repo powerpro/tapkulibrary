@@ -266,22 +266,17 @@
 	_monthYear.text = [localNextMonth monthYearString];
 }
 - (void) changeMonth:(UIButton *)sender{
-	
 	NSDate *newDate = [self dateForMonthChange:sender];
 	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:newDate animated:YES] ) 
 		return;
-	
-	
+
 	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] ) 
 		[self.delegate calendarMonthView:self monthWillChange:newDate animated:YES];
-	
 
-	
-	
 	[self changeMonthAnimation:sender];
+
 	if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
 		[self.delegate calendarMonthView:self monthDidChange:self.currentTile.monthDate animated:YES];
-
 }
 
 - (NSDate*) dateSelected{
@@ -345,30 +340,11 @@
 	if([ar count] >= 2){
 		int direction = [[ar lastObject] intValue];
 		UIButton *b = direction > 1 ? self.rightArrow : self.leftArrow;
-		
-		NSDate* newMonth = [self dateForMonthChange:b];
-		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:newMonth animated:YES])
-			return;
-		
-		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)])					
-			[self.delegate calendarMonthView:self monthWillChange:newMonth animated:YES];
-		
-		
-		
-		[self changeMonthAnimation:b];
-		
+
+        [self changeMonth:b];
+
 		int day = [[ar objectAtIndex:0] intValue];
-
-	
-		// thanks rafael
-		TKDateInformation info = [[self.currentTile monthDate] dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-		info.day = day;
-        
-        NSDate *dateForMonth = [NSDate dateFromDateInformation:info  timeZone:[NSTimeZone timeZoneWithName:@"GMT"]]; 
 		[self.currentTile selectDay:day];
-
-		if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
-			[self.delegate calendarMonthView:self monthDidChange:dateForMonth animated:YES];
 	}
 
     if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
