@@ -13,7 +13,6 @@
 
 
 @implementation TKCalendarMonthTiles
-@synthesize monthDate,datesArray;
 
 #define dotFontSize 18.0
 #define dateFontSize 22.0
@@ -155,15 +154,15 @@
 
 	_firstOfPrev = -1;
 	_marks = markArray;
-	monthDate = date;
+	_monthDate = date;
 	_startOnSunday = sunday;
 
-	TKDateInformation dateInfo = [monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation dateInfo = [_monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	_firstWeekday = dateInfo.weekday;
 
 
-	NSDate *prev = [monthDate previousMonth];
-	_daysInMonth = [[monthDate nextMonth] daysBetweenDate:monthDate];
+	NSDate *prev = [_monthDate previousMonth];
+	_daysInMonth = [[_monthDate nextMonth] daysBetweenDate:_monthDate];
 
 
 	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:date startOnSunday:sunday];
@@ -176,7 +175,7 @@
 	TKDateInformation todayInfo = [[NSDate date] dateInformation];
 	_today = dateInfo.month == todayInfo.month && dateInfo.year == todayInfo.year ? todayInfo.day : -5;
 
-	int preDayCnt = [prev daysBetweenDate:monthDate];
+	int preDayCnt = [prev daysBetweenDate:_monthDate];
 	if(_firstWeekday >1 && sunday){
 		_firstOfPrev = preDayCnt - _firstWeekday +2;
 		_lastOfPrev = preDayCnt;
@@ -364,7 +363,7 @@
 - (NSDate*) dateSelected{
 	if(_selectedDay < 1 || _selectedPortion != 1) return nil;
 
-	TKDateInformation info = [monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation info = [_monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	info.hour = 0;
 	info.minute = 0;
 	info.second = 0;
