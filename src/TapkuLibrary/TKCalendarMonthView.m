@@ -199,16 +199,6 @@
     return newTile;
 }
 
-- (NSDate*) dateForMonthChange:(UIButton *)sender {
-	BOOL isNext = sender == self.rightArrow;
-	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
-	
-	TKDateInformation nextInfo = [nextMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	NSDate *localNextMonth = [NSDate dateFromDateInformation:nextInfo];
-	
-	return localNextMonth;
-}
-
 - (void)changeMonth:(UIButton *)sender{
 	BOOL isNext = self.rightArrow == sender;
 	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
