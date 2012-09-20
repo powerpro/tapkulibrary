@@ -51,8 +51,6 @@
 
 #pragma mark -
 @implementation TKCalendarMonthView
-@synthesize delegate,dataSource;
-@synthesize tileBox=_tileBox;
 
 - (void)setup {
     self.shadow = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Shadow.png")]];
@@ -325,7 +323,7 @@
 		return;
 	}else {
 		
-		if ([delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:month animated:YES] ) 
+		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:month animated:YES] )
 			return;
 		
 		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
@@ -380,7 +378,7 @@
 		UIButton *b = direction > 1 ? self.rightArrow : self.leftArrow;
 		
 		NSDate* newMonth = [self dateForMonthChange:b];
-		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![delegate calendarMonthView:self monthShouldChange:newMonth animated:YES])
+		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:newMonth animated:YES])
 			return;
 		
 		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)])					
