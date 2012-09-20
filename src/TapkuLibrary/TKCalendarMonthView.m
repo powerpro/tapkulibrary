@@ -64,13 +64,13 @@
     
     self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
     self.rightArrow.accessibilityLabel = @"Next Month";
-    [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:0];
+    [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:UIControlStateNormal];
     [self.rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
     self.rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
     
     self.leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
     self.leftArrow.accessibilityLabel = @"Previous Month";
-    [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:0];
+    [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:UIControlStateNormal];
     [self.leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
   	self.leftArrow.frame = CGRectMake(0, 0, 48, 38);
     
