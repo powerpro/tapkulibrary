@@ -14,3 +14,6 @@ xcuserdata
 
 # osx noise
 .DS_Store
+
+# AppCode noise
+.idea
