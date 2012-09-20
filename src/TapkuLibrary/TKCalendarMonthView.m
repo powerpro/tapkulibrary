@@ -39,12 +39,14 @@
 
 #pragma mark -
 @interface TKCalendarMonthView ()
+
 @property (strong,nonatomic) UIView *tileBox;
 @property (strong,nonatomic) UIImageView *topBackground;
 @property (strong,nonatomic) UILabel *monthYear;
 @property (strong,nonatomic) UIButton *leftArrow;
 @property (strong,nonatomic) UIButton *rightArrow;
 @property (strong,nonatomic) UIImageView *shadow;
+
 @end
 
 #pragma mark -
@@ -52,12 +54,43 @@
 @synthesize delegate,dataSource;
 @synthesize tileBox=_tileBox;
 
+- (void)setup {
+    self.shadow = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Shadow.png")]];
+
+    self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, _currentTile.frame.size.height)];
+    self.tileBox.clipsToBounds = YES;
+    
+    self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
+  	self.rightArrow.tag = 1;
+    self.rightArrow.accessibilityLabel = @"Next Month";
+    [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:0];
+    [self.rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
+    self.rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
+    
+    self.leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
+  	self.leftArrow.tag = 0;
+    self.leftArrow.accessibilityLabel = @"Previous Month";
+    [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:0];
+    [self.leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
+  	self.leftArrow.frame = CGRectMake(0, 0, 48, 38);
+    
+    self.monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, self.tileBox.frame.size.width, 38), 40, 6)];
+  	self.monthYear.textAlignment = NSTextAlignmentCenter;
+  	self.monthYear.backgroundColor = [UIColor clearColor];
+  	self.monthYear.font = [UIFont boldSystemFontOfSize:22];
+  	self.monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
+
+    self.topBackground =  [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Grid Top Bar.png")]];
+}
+
 - (id) init{
 	self = [self initWithSundayAsFirst:YES];
 	return self;
 }
 - (id) initWithSundayAsFirst:(BOOL)s{
 	if (!(self = [super initWithFrame:CGRectZero])) return nil;
+    [self setup];
+
 	self.backgroundColor = [UIColor grayColor];
 
 	_sunday = s;
@@ -377,59 +410,6 @@
 		
 	}
 	
-}
-
-#pragma mark Properties
-- (UIImageView *) topBackground{
-	if(_topBackground ==nil){
-		_topBackground = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Grid Top Bar.png")]];
-	}
-	return _topBackground;
-}
-- (UILabel *) monthYear{
-	if(_monthYear ==nil){
-		_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, self.tileBox.frame.size.width, 38), 40, 6)];
-		_monthYear.textAlignment = UITextAlignmentCenter;
-		_monthYear.backgroundColor = [UIColor clearColor];
-		_monthYear.font = [UIFont boldSystemFontOfSize:22];
-		_monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
-	}
-	return _monthYear;
-}
-- (UIButton *) leftArrow{
-	if(_leftArrow ==nil){
-		_leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
-		_leftArrow.tag = 0;
-        _leftArrow.accessibilityLabel = @"Previous Month";
-		[_leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
-		[_leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:0];
-		_leftArrow.frame = CGRectMake(0, 0, 48, 38);
-	}
-	return _leftArrow;
-}
-- (UIButton *) rightArrow{
-	if(_rightArrow ==nil){
-		_rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
-		_rightArrow.tag = 1;
-        _rightArrow.accessibilityLabel = @"Next Month";
-		[_rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
-		_rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
-		[_rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:0];
-	}
-	return _rightArrow;
-}
-- (UIView *) tileBox{
-	if(_tileBox==nil){
-		_tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, _currentTile.frame.size.height)];
-		_tileBox.clipsToBounds = YES;
-	}
-	return _tileBox;
-}
-- (UIImageView *) shadow{
-	if(_shadow ==nil){
-		_shadow = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Shadow.png")]];
-	}
-	return _shadow;
 }
 
 @end
