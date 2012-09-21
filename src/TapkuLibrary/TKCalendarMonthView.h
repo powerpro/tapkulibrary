@@ -65,7 +65,13 @@
 /** Selects a specific date in the month grid. 
  @param date The date that will be highlighed.
  */
-- (void)selectDate:(NSDate*)date;
+- (void)selectDate:(NSDate *)date;
+
+/** Selects a specific date in the month grid.
+ @param date The date that will be highlighed.
+ @param animated Whether or not it should animate.
+ */
+- (void)selectDate:(NSDate *)date animated:(BOOL)animated;
 
 /** Reloads the current month grid. */
 - (void) reload;

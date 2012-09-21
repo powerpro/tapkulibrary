@@ -172,7 +172,11 @@
 }
 
 - (void)selectDate:(NSDate *)date {
-    [self setCurrentTile:[self tilesForMonth:[date firstOfMonth]]  animated:YES];
+    [self selectDate:date animated:NO];
+}
+
+- (void)selectDate:(NSDate *)date animated:(BOOL)animated {
+    [self setCurrentTile:[self tilesForMonth:[date firstOfMonth]] animated:animated];
 
     TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [self.currentTile selectDay:info.day];
@@ -185,7 +189,7 @@
 #pragma mark TKCalendarMonthTilesDelegate
 
 - (void)dateWasSelected:(NSDate *)date {
-    [self selectDate:date];
+    [self selectDate:date animated:YES];
     if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
   	    [self.delegate calendarMonthView:self didSelectDate:[self dateSelected]];
 }
