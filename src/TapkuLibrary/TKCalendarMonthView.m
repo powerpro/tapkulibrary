@@ -55,6 +55,21 @@
 #pragma mark -
 @implementation TKCalendarMonthView
 
+- (UILabel *)dayLabelWithText:(NSString *)text accessibilityLabel:(NSString *)accessibilityLabel {
+    UILabel *label = [[UILabel alloc] init];
+
+    label.text = text;
+    label.accessibilityLabel = accessibilityLabel;
+  	label.textAlignment = NSTextAlignmentCenter;
+  	label.shadowColor = [UIColor whiteColor];
+  	label.shadowOffset = CGSizeMake(0, 1);
+  	label.font = [UIFont systemFontOfSize:11];
+  	label.backgroundColor = [UIColor clearColor];
+  	label.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
+
+    return label;
+}
+
 - (void)setup {
     self.currentTile = [self tilesForMonth:[[NSDate date] firstOfMonth]];
 
@@ -97,6 +112,26 @@
     [self addSubview:self.shadow];
 
     self.backgroundColor = [UIColor grayColor];
+
+    UILabel *sundayLabel    = [self dayLabelWithText:@"Sun" accessibilityLabel:@"Sunday"];
+    UILabel *mondayLabel    = [self dayLabelWithText:@"Mon" accessibilityLabel:@"Monday"];
+    UILabel *tuesdayLabel   = [self dayLabelWithText:@"Tue" accessibilityLabel:@"Tuesday"];
+    UILabel *wednesdayLabel = [self dayLabelWithText:@"Wed" accessibilityLabel:@"Wednesday"];
+    UILabel *thursdayLabel  = [self dayLabelWithText:@"Thu" accessibilityLabel:@"Thursday"];
+    UILabel *fridayLabel    = [self dayLabelWithText:@"Fri" accessibilityLabel:@"Friday"];
+    UILabel *saturdayLabel  = [self dayLabelWithText:@"Sat" accessibilityLabel:@"Saturday"];
+
+    NSArray *ar;
+   	if(self.sunday)
+        ar = [NSArray arrayWithObjects:sundayLabel, mondayLabel, tuesdayLabel, wednesdayLabel, thursdayLabel, fridayLabel, saturdayLabel, nil];
+   	else
+        ar = [NSArray arrayWithObjects:mondayLabel, tuesdayLabel, wednesdayLabel, thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, nil];
+
+    for (NSUInteger i = 0; i < [ar count]; i++) {
+        UILabel *label = [ar objectAtIndex:i];
+        label.frame = CGRectMake(46 * i, 29, 46, 15);
+        [self addSubview:label];
+    }
 }
 
 - (id) init{
@@ -109,78 +144,6 @@
 
     [self setup];
 
-	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-	[dateFormat setDateFormat:@"eee"];
-	[dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	
-	
-	TKDateInformation sund;
-	sund.day = 5;
-	sund.month = 12;
-	sund.year = 2010;
-	sund.hour = 0;
-	sund.minute = 0;
-	sund.second = 0;
-	sund.weekday = 0;
-	
-	
-	NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:0];
-	NSString * sun = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	sund.day = 6;
-	NSString *mon = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	sund.day = 7;
-	NSString *tue = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	sund.day = 8;
-	NSString *wed = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	sund.day = 9;
-	NSString *thu = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	sund.day = 10;
-	NSString *fri = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	sund.day = 11;
-	NSString *sat = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
-	
-	NSArray *ar;
-	if(self.sunday) ar = [NSArray arrayWithObjects:sun,mon,tue,wed,thu,fri,sat,nil];
-	else ar = [NSArray arrayWithObjects:mon,tue,wed,thu,fri,sat,sun,nil];
-	
-	int i = 0;
-	for(NSString *s in ar){
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(46 * i, 29, 46, 15)];
-		[self addSubview:label];
-        
-        //Added Accessibility Labels
-        if ([s isEqualToString:@"Sun"]) {
-            label.accessibilityLabel = @"Sunday";
-        } else if ([s isEqualToString:@"Mon"]) {
-            label.accessibilityLabel = @"Monday";
-        } else if ([s isEqualToString:@"Tue"]) {
-            label.accessibilityLabel = @"Tuesday";
-        } else if ([s isEqualToString:@"Wed"]) {
-            label.accessibilityLabel = @"Wednesday";
-        } else if ([s isEqualToString:@"Thu"]) {
-            label.accessibilityLabel = @"Thursday";
-        } else if ([s isEqualToString:@"Fri"]) {
-            label.accessibilityLabel = @"Friday";
-        } else if ([s isEqualToString:@"Sat"]) {
-            label.accessibilityLabel = @"Saturday";
-        }
-        
-		label.text = s;
-		label.textAlignment = NSTextAlignmentCenter;
-		label.shadowColor = [UIColor whiteColor];
-		label.shadowOffset = CGSizeMake(0, 1);
-		label.font = [UIFont systemFontOfSize:11];
-		label.backgroundColor = [UIColor clearColor];
-		label.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
-		i++;
-	}
-	
 	return self;
 }
 
