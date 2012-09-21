@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 
+@protocol TKCalendarMonthTilesDelegate
+
+- (void)tile:(NSArray *)ar;
+
+@end
+
 @interface TKCalendarMonthTiles : UIView {
-
-	id _target;
-	SEL _action;
-
 	int _firstOfPrev, _lastOfPrev;
 	NSArray *_marks;
 	int _today;
@@ -26,11 +28,12 @@
 	BOOL _startOnSunday;
 }
 
+@property (nonatomic, weak) id <TKCalendarMonthTilesDelegate> delegate;
+
 @property (strong,nonatomic) NSDate *monthDate;
 @property (nonatomic, strong) NSMutableArray *accessibleElements;
 
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)marks startDayOnSunday:(BOOL)sunday;
-- (void) setTarget:(id)target action:(SEL)action;
 
 - (void) selectDay:(int)day;
 - (NSDate*) dateSelected;

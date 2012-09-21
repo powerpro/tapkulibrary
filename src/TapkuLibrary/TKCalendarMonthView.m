@@ -38,7 +38,7 @@
 
 
 #pragma mark -
-@interface TKCalendarMonthView ()
+@interface TKCalendarMonthView () <TKCalendarMonthTilesDelegate>
 
 @property (strong,nonatomic) UIView *tileBox;
 @property (strong,nonatomic) UIImageView *topBackground;
@@ -151,7 +151,7 @@
     NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
     NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
    	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:ar startDayOnSunday:self.sunday];
-   	[newTile setTarget:self action:@selector(tile:)];
+    newTile.delegate = self;
     return newTile;
 }
 

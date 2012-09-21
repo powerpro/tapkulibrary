@@ -199,11 +199,6 @@
 
 	return self;
 }
-- (void) setTarget:(id)t action:(SEL)a{
-	_target = t;
-	_action = a;
-}
-
 
 - (CGRect) rectForCellAtIndex:(int)index{
 
@@ -453,10 +448,9 @@
 	if(portion == 1){
 		_selectedDay = day;
 		_selectedPortion = portion;
-        [_target performSelector:_action withObject:[NSArray arrayWithObject:[NSNumber numberWithInt:day]]];
-
+        [self.delegate tile:[NSArray arrayWithObject:[NSNumber numberWithInt:day]]];
 	}else if(down){
-        [_target performSelector:_action withObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:day], [NSNumber numberWithInt:portion], nil]];
+        [self.delegate tile:[NSArray arrayWithObjects:[NSNumber numberWithInt:day], [NSNumber numberWithInt:portion], nil]];
 		_selectedDay = day;
 		_selectedPortion = portion;
 	}
