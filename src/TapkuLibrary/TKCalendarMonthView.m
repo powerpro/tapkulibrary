@@ -71,7 +71,7 @@
 }
 
 - (void)setup {
-    [self setCurrentTile:[self tilesForMonth:[[NSDate date] firstOfMonth]] animated:NO];
+    [self updateViewToMonth:[[NSDate date] firstOfMonth] animated:NO];
 
     self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.currentTile.frame.size.height)];
     self.tileBox.clipsToBounds = YES;
@@ -147,20 +147,12 @@
     return self;
 }
 
-- (TKCalendarMonthTiles *)tilesForMonth:(NSDate *)month {
-    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
-    NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
-   	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:ar startDayOnSunday:self.sunday];
-    newTile.delegate = self;
-    return newTile;
-}
-
 - (void)nextMonthPressed {
-    [self setCurrentTile:[self tilesForMonth:[self.currentTile.monthDate nextMonth]] animated:YES];
+    [self updateViewToMonth:[self.currentTile.monthDate nextMonth] animated:YES];
 }
 
 - (void)previousMonthPressed {
-    [self setCurrentTile:[self tilesForMonth:[self.currentTile.monthDate previousMonth]] animated:YES];
+    [self updateViewToMonth:[self.currentTile.monthDate previousMonth] animated:YES];
 }
 
 - (NSDate *)dateSelected {
@@ -176,14 +168,14 @@
 }
 
 - (void)selectDate:(NSDate *)date animated:(BOOL)animated {
-    [self setCurrentTile:[self tilesForMonth:[date firstOfMonth]] animated:animated];
+    [self updateViewToMonth:[date firstOfMonth] animated:animated];
 
     TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [self.currentTile selectDay:info.day];
 }
 
 - (void)reload {
-    [self setCurrentTile:[self tilesForMonth:[self.currentTile monthDate]] animated:NO];
+    [self updateViewToMonth:[self.currentTile monthDate] animated:NO];
 }
 
 #pragma mark TKCalendarMonthTilesDelegate
@@ -195,6 +187,15 @@
 }
 
 #pragma mark Properties
+
+- (void)updateViewToMonth:(NSDate *)month animated:(BOOL)animated {
+    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
+    NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
+   	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:ar startDayOnSunday:self.sunday];
+    newTile.delegate = self;
+
+    [self setCurrentTile:newTile animated:animated];
+}
 
 - (void)setCurrentTile:(TKCalendarMonthTiles *)newTile animated:(BOOL)animated {
     self.monthYear.text = [[newTile monthDate] monthYearString];
