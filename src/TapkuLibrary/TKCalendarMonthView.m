@@ -133,7 +133,7 @@
     }
 }
 
-- (id) init{
+- (id)init {
 	return [self initWithSundayAsFirst:YES];
 }
 
@@ -163,10 +163,11 @@
     self.currentTile = [self tilesForMonth:[self.currentTile.monthDate previousMonth]];
 }
 
-- (NSDate*) dateSelected{
+- (NSDate *)dateSelected {
 	return [self.currentTile dateSelected];
 }
-- (NSDate*) monthDate{
+
+- (NSDate *)monthDate {
 	return [self.currentTile monthDate];
 }
 
@@ -177,7 +178,7 @@
     [self.currentTile selectDay:info.day];
 }
 
-- (void) reload{
+- (void)reload {
     self.currentTile = [self tilesForMonth:[self.currentTile monthDate]];
 }
 
