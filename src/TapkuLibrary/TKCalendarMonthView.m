@@ -90,7 +90,6 @@
   	self.monthYear.backgroundColor = [UIColor clearColor];
   	self.monthYear.font = [UIFont boldSystemFontOfSize:22];
   	self.monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
-    self.monthYear.text = [[NSDate date] monthYearString];
    	[self addSubview:self.monthYear];
 
     self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -160,12 +159,7 @@
 	BOOL isNext = self.rightArrow == sender;
 	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
 	
-	TKDateInformation nextInfo = [nextMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	NSDate *localNextMonth = [NSDate dateFromDateInformation:nextInfo];
-
     self.currentTile = [self tilesForMonth:nextMonth];
-
-	self.monthYear.text = [localNextMonth monthYearString];
 }
 
 - (NSDate*) dateSelected{
@@ -189,7 +183,6 @@
 		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
 
 		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
-		self.monthYear.text = [date monthYearString];
 		[self.currentTile selectDay:info.day];
 	}
 }
@@ -216,6 +209,8 @@
 #pragma mark Properties
 
 - (void)setCurrentTile:(TKCalendarMonthTiles *)newTile {
+    self.monthYear.text = [[newTile monthDate] monthYearString];
+
     if ([[_currentTile monthDate] isEqualToDate:[newTile monthDate]]) return;
 
     TKCalendarMonthTiles *currentTile = _currentTile;
