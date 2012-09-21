@@ -65,7 +65,7 @@
 /** Selects a specific date in the month grid. 
  @param date The date that will be highlighed.
  */
-- (void) selectDate:(NSDate*)date;
+- (void)selectDate:(NSDate*)date;
 
 /** Reloads the current month grid. */
 - (void) reload;

@@ -169,24 +169,14 @@
 - (NSDate*) monthDate{
 	return [self.currentTile monthDate];
 }
-- (void) selectDate:(NSDate*)date{
-	TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-	NSDate *month = [date firstOfMonth];
-	
-	if([month isEqualToDate:[self.currentTile monthDate]]){
-		[self.currentTile selectDay:info.day];
-		return;
-	}else {
-		TKCalendarMonthTiles *newTile = [self tilesForMonth:month];
-        self.currentTile = newTile;
 
-		self.tileBox.frame = CGRectMake(0, 44, newTile.frame.size.width, newTile.frame.size.height);
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.tileBox.frame.size.height+self.tileBox.frame.origin.y);
+- (void)selectDate:(NSDate *)date {
+    self.currentTile = [self tilesForMonth:[date firstOfMonth]];
 
-		self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
-		[self.currentTile selectDay:info.day];
-	}
+    TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    [self.currentTile selectDay:info.day];
 }
+
 - (void) reload{
     self.currentTile = [self tilesForMonth:[self.currentTile monthDate]];
 }
