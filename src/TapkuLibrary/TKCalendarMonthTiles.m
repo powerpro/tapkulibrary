@@ -230,8 +230,8 @@
 	r.size.height -= 2;
 	[str drawInRect: r
 		   withFont: f1
-	  lineBreakMode: UILineBreakModeWordWrap
-		  alignment: UITextAlignmentCenter];
+	  lineBreakMode: NSLineBreakByWordWrapping
+		  alignment: NSTextAlignmentCenter];
 
 	if(mark){
 		r.size.height = 10;
@@ -239,8 +239,8 @@
 
 		[@"•" drawInRect: r
 				withFont: f2
-		   lineBreakMode: UILineBreakModeWordWrap
-			   alignment: UITextAlignmentCenter];
+		   lineBreakMode: NSLineBreakByWordWrapping
+			   alignment: NSTextAlignmentCenter];
 	}
 
 
