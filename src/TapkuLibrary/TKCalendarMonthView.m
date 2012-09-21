@@ -71,11 +71,8 @@
 }
 
 - (void)setup {
-    [self updateViewToMonth:[[NSDate date] firstOfMonth] animated:NO];
-
-    self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.currentTile.frame.size.height)];
+    self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0)];
     self.tileBox.clipsToBounds = YES;
-    [self.tileBox addSubview:self.currentTile];
     [self addSubview:self.tileBox];
 
     CGRect r = CGRectMake(0, 0, self.tileBox.bounds.size.width, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
@@ -131,6 +128,8 @@
         label.frame = CGRectMake(46 * i, 29, 46, 15);
         [self addSubview:label];
     }
+
+    [self selectDate:[NSDate date]];
 }
 
 - (id)init {
@@ -213,18 +212,18 @@
     _currentTile = newTile;
 
     BOOL isNext = [currentTile.monthDate compare:newTile.monthDate] == NSOrderedAscending;
-    NSDate *nextMonth = isNext ? [currentTile.monthDate nextMonth] : [currentTile.monthDate previousMonth];
-    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:nextMonth startOnSunday:self.sunday];
+    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:[newTile monthDate] startOnSunday:self.sunday];
 
     int overlap =  0;
+    float y = 0;
 
-   	if(isNext){
+   	if (isNext) {
    		overlap = [newTile.monthDate isEqualToDate:[dates objectAtIndex:0]] ? 0 : 44;
-   	}else{
+        y = currentTile.bounds.size.height - overlap;
+   	} else {
    		overlap = [currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
+        y = newTile.bounds.size.height * -1 + overlap + 2;
    	}
-
-   	float y = isNext ? currentTile.bounds.size.height - overlap : newTile.bounds.size.height * -1 + overlap +2;
 
    	newTile.frame = CGRectMake(0, y, newTile.frame.size.width, newTile.frame.size.height);
    	newTile.alpha = 0;
