@@ -51,8 +51,6 @@ typedef struct TKDateInformation TKDateInformation;
 /** Additional functionality for `NSDate`. */
 @interface NSDate (TKCategory)
 
-+ (NSDate *) yesterday;
-
 /** Creates and returns a new date set to the first day of the month from the date object.
  @return A `NSDate` object set to the same month as the date object. The day will be the first of the month.
  */
@@ -73,8 +71,7 @@ typedef struct TKDateInformation TKDateInformation;
 
 - (TKDateInformation) dateInformation;
 - (TKDateInformation) dateInformationGMT;
-+ (NSDate*) dateFromDateInformation:(TKDateInformation)info;
-+ (NSDate*) dateFromDateInformation:(TKDateInformation)info timeZone:(NSTimeZone*)tz;
++ (NSDate *)dateFromDateInformation:(TKDateInformation)info;
 
 - (NSDate *)nextMonth;
 - (NSDate *)previousMonth;

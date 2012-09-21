@@ -33,12 +33,6 @@
 
 @implementation NSDate (TKCategory)
 
-+ (NSDate*) yesterday{
-	TKDateInformation inf = [[NSDate date] dateInformation];
-	inf.day--;
-	return [NSDate dateFromDateInformation:inf];
-}
-
 - (NSDate*) monthDate {
 	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:self];
@@ -136,36 +130,21 @@
     
 	return info;
 }
-+ (NSDate*) dateFromDateInformation:(TKDateInformation)info timeZone:(NSTimeZone*)tz{
-	
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	[gregorian setTimeZone:tz];
-	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
-	
-	[comp setDay:info.day];
-	[comp setMonth:info.month];
-	[comp setYear:info.year];
-	[comp setHour:info.hour];
-	[comp setMinute:info.minute];
-	[comp setSecond:info.second];
-	[comp setTimeZone:tz];
-	
-	return [gregorian dateFromComponents:comp];
-}
-+ (NSDate*) dateFromDateInformation:(TKDateInformation)info{
-	
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
-	
-	[comp setDay:info.day];
-	[comp setMonth:info.month];
-	[comp setYear:info.year];
-	[comp setHour:info.hour];
-	[comp setMinute:info.minute];
-	[comp setSecond:info.second];
-	//[comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	
-	return [gregorian dateFromComponents:comp];
++ (NSDate *)dateFromDateInformation:(TKDateInformation)info {
+    NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:0];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [gregorian setTimeZone:tz];
+   	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
+
+   	[comp setDay:info.day];
+   	[comp setMonth:info.month];
+   	[comp setYear:info.year];
+   	[comp setHour:info.hour];
+   	[comp setMinute:info.minute];
+   	[comp setSecond:info.second];
+   	[comp setTimeZone:tz];
+
+   	return [gregorian dateFromComponents:comp];
 }
 
 - (NSDate *) nextMonth {
@@ -179,7 +158,7 @@
 	info.second = 0;
 	info.hour = 0;
 
-	return [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	return [NSDate dateFromDateInformation:info];
 }
 
 - (NSDate *) previousMonth {
@@ -193,7 +172,7 @@
 	info.minute = 0;
 	info.second = 0;
 	info.hour = 0;
-	return [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	return [NSDate dateFromDateInformation:info];
 }
 
 @end

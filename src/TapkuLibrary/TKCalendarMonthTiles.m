@@ -92,7 +92,7 @@
 	info.minute = 0;
 	info.second = 0;
 
-	NSDate *currentMonth = [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	NSDate *currentMonth = [NSDate dateFromDateInformation:info];
 	info = [currentMonth dateInformationGMT];
 
 
@@ -105,7 +105,7 @@
 
 		int preDayCnt = [previousMonth daysBetweenDate:currentMonth];
 		info2.day = preDayCnt - info.weekday + 2;
-		firstDate = [NSDate dateFromDateInformation:info2 timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		firstDate = [NSDate dateFromDateInformation:info2];
 
 
 	}else if(!sunday && info.weekday != 2){
@@ -117,7 +117,7 @@
 		}else{
 			info2.day = preDayCnt - info.weekday + 3;
 		}
-		firstDate = [NSDate dateFromDateInformation:info2 timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		firstDate = [NSDate dateFromDateInformation:info2];
 
 
 
@@ -129,7 +129,7 @@
 
 	int daysInMonth = [currentMonth daysBetweenDate:nextMonth];
 	info.day = daysInMonth;
-	NSDate *lastInMonth = [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	NSDate *lastInMonth = [NSDate dateFromDateInformation:info];
 	TKDateInformation lastDateInfo = [lastInMonth dateInformationGMT];
 
 
@@ -143,7 +143,7 @@
 			lastDateInfo.month = 1;
 			lastDateInfo.year++;
 		}
-		lastDate = [NSDate dateFromDateInformation:lastDateInfo timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		lastDate = [NSDate dateFromDateInformation:lastDateInfo];
 
 	}else if(!sunday && lastDateInfo.weekday != 1){
 
@@ -153,7 +153,7 @@
 		if(lastDateInfo.month>12){ lastDateInfo.month = 1; lastDateInfo.year++; }
 
 
-		lastDate = [NSDate dateFromDateInformation:lastDateInfo timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		lastDate = [NSDate dateFromDateInformation:lastDateInfo];
 
 	}else{
 		lastDate = lastInMonth;
@@ -377,7 +377,7 @@
 	info.minute = 0;
 	info.second = 0;
 	info.day = self.selectedDay;
-	NSDate *d = [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	NSDate *d = [NSDate dateFromDateInformation:info];
 
 
 
