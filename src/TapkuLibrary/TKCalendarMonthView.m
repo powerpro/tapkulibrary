@@ -33,7 +33,6 @@
 #import "NSDate+TKCategory.h"
 #import "TKGlobal.h"
 #import "UIImage+TKCategory.h"
-#import "NSDate+CalendarGrid.h"
 #import "TKCalendarMonthTiles.h"
 
 
@@ -165,7 +164,7 @@
 }
 
 - (void)selectDate:(NSDate *)date animated:(BOOL)animated {
-    [self updateViewToMonth:[date firstOfMonth] animated:animated];
+    [self updateViewToMonth:[date monthDate] animated:animated];
 
     TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [self.currentTile selectDay:info.day];

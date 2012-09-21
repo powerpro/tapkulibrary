@@ -8,7 +8,6 @@
 
 #import "TKCalendarMonthTiles.h"
 #import "TapkuLibrary.h"
-#import "NSDate+CalendarGrid.h"
 
 
 @interface TKCalendarMonthTiles ()

@@ -223,4 +223,32 @@
 	return [NSString stringWithFormat:@"%d %d %d %d:%d:%d",info.month,info.day,info.year,info.hour,info.minute,info.second];
 }
 
+- (NSDate *) nextMonth {
+	TKDateInformation info = [self dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	info.month++;
+	if(info.month>12){
+		info.month = 1;
+		info.year++;
+	}
+	info.minute = 0;
+	info.second = 0;
+	info.hour = 0;
+
+	return [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+}
+
+- (NSDate *) previousMonth {
+	TKDateInformation info = [self dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	info.month--;
+	if(info.month<1){
+		info.month = 12;
+		info.year--;
+	}
+
+	info.minute = 0;
+	info.second = 0;
+	info.hour = 0;
+	return [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+}
+
 @end
