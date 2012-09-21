@@ -115,6 +115,7 @@
 /** The data source of a `TKCalendarMonthView` object must adopt the `TKCalendarMonthViewDataSource` protocol. */ 
 @protocol TKCalendarMonthViewDataSource <NSObject>
 
+@optional
 /** A data source that will correspond to marks for the calendar month grid for a particular month.
  
  @param monthView The calendar month grid.
