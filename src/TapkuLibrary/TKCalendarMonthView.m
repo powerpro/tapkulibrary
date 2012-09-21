@@ -188,6 +188,12 @@
 - (void)updateViewToMonth:(NSDate *)month animated:(BOOL)animated {
     if ([[self monthDate] isEqualToDate:month]) return;
 
+    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:month animated:animated])
+   		return;
+
+    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
+   		[self.delegate calendarMonthView:self monthWillChange:month animated:animated];
+
     self.monthYear.text = [month monthYearString];
 
     NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
@@ -195,22 +201,11 @@
    	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:ar startDayOnSunday:self.sunday];
     newTile.delegate = self;
 
-    [self setCurrentTile:newTile animated:animated];
-}
-
-- (void)setCurrentTile:(TKCalendarMonthTiles *)newTile animated:(BOOL)animated {
     TKCalendarMonthTiles *currentTile = _currentTile;
-
-    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:[newTile monthDate] animated:animated] )
-   		return;
-
-   	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
-   		[self.delegate calendarMonthView:self monthWillChange:[newTile monthDate] animated:animated];
 
     _currentTile = newTile;
 
     BOOL isNext = [currentTile.monthDate compare:newTile.monthDate] == NSOrderedAscending;
-    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:[newTile monthDate] startOnSunday:self.sunday];
 
     int overlap =  0;
     float y = 0;

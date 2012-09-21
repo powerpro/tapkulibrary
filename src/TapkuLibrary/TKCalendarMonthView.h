@@ -86,8 +86,7 @@
  @param monthView The calendar month view.
  @param date The highlighted date.
  */ 
-- (void) calendarMonthView:(TKCalendarMonthView*)monthView didSelectDate:(NSDate*)date;
-
+- (void) calendarMonthView:(TKCalendarMonthView *)monthView didSelectDate:(NSDate *)date;
 
 /** The calendar should change the current month to grid shown.
  @param monthView The calendar month view.
@@ -95,21 +94,21 @@
  @param animated Animation flag
  @return YES if the month should change. NO otherwise
  */ 
-- (BOOL) calendarMonthView:(TKCalendarMonthView*)monthView monthShouldChange:(NSDate*)month animated:(BOOL)animated;
+- (BOOL)calendarMonthView:(TKCalendarMonthView *)monthView monthShouldChange:(NSDate *)month animated:(BOOL)animated;
 
 /** The calendar will change the current month to grid shown.
  @param monthView The calendar month view.
  @param month The month date.
  @param animated Animation flag
  */ 
-- (void) calendarMonthView:(TKCalendarMonthView*)monthView monthWillChange:(NSDate*)month animated:(BOOL)animated;
+- (void)calendarMonthView:(TKCalendarMonthView *)monthView monthWillChange:(NSDate *)month animated:(BOOL)animated;
 
 /** The calendar did change the current month to grid shown.
  @param monthView The calendar month view.
  @param month The month date.
  @param animated Animation flag
  */ 
-- (void) calendarMonthView:(TKCalendarMonthView*)monthView monthDidChange:(NSDate*)month animated:(BOOL)animated;
+- (void)calendarMonthView:(TKCalendarMonthView *)monthView monthDidChange:(NSDate *)month animated:(BOOL)animated;
 @end
 
 
@@ -124,5 +123,5 @@
  @return Returns an array of NSNumber objects corresponding the number of days specified in the start and last day parameters. Each NSNumber variable will give a BOOL value that will be used to display a dot under the day.
  
  */
-- (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate;
+- (NSArray *)calendarMonthView:(TKCalendarMonthView *)monthView marksFromDate:(NSDate *)startDate toDate:(NSDate *)lastDate;
 @end
