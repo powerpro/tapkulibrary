@@ -95,14 +95,14 @@
     self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
     self.rightArrow.accessibilityLabel = @"Next Month";
     [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:UIControlStateNormal];
-    [self.rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
+    [self.rightArrow addTarget:self action:@selector(nextMonthPressed) forControlEvents:UIControlEventTouchUpInside];
     self.rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
     [self addSubview:self.rightArrow];
 
     self.leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
     self.leftArrow.accessibilityLabel = @"Previous Month";
     [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:UIControlStateNormal];
-    [self.leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
+    [self.leftArrow addTarget:self action:@selector(previousMonthPressed) forControlEvents:UIControlEventTouchUpInside];
   	self.leftArrow.frame = CGRectMake(0, 0, 48, 38);
     [self addSubview:self.leftArrow];
 
@@ -155,11 +155,12 @@
     return newTile;
 }
 
-- (void)changeMonth:(UIButton *)sender{
-	BOOL isNext = self.rightArrow == sender;
-	NSDate *nextMonth = isNext ? [self.currentTile.monthDate nextMonth] : [self.currentTile.monthDate previousMonth];
-	
-    self.currentTile = [self tilesForMonth:nextMonth];
+- (void)nextMonthPressed {
+    self.currentTile = [self tilesForMonth:[self.currentTile.monthDate nextMonth]];
+}
+
+- (void)previousMonthPressed {
+    self.currentTile = [self tilesForMonth:[self.currentTile.monthDate previousMonth]];
 }
 
 - (NSDate*) dateSelected{
@@ -193,10 +194,11 @@
 - (void) tile:(NSArray*)ar{
 	if([ar count] >= 2){
 		int direction = [[ar lastObject] intValue];
-		UIButton *b = direction > 1 ? self.rightArrow : self.leftArrow;
-
-        [self changeMonth:b];
-
+        if (direction > 1)
+            [self nextMonthPressed];
+        else
+            [self previousMonthPressed];
+        
         int day = [[ar objectAtIndex:0] intValue];
 		[self.currentTile selectDay:day];
 	}
