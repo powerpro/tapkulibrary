@@ -122,10 +122,11 @@
 
 - (NSString *) monthYearString {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
 	dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yMMMM"
 															   options:0
 																locale:[NSLocale currentLocale]];
-	return [dateFormatter stringFromDate:self];
+    return [dateFormatter stringFromDate:self];
 }
 
 - (NSString*) monthString{
