@@ -93,13 +93,11 @@
     return [dateFormatter stringFromDate:self];
 }
 
-- (TKDateInformation) dateInformationWithTimeZone:(NSTimeZone*)tz{
-	
-	
+- (TKDateInformation) dateInformationGMT {
 	TKDateInformation info;
 	
 	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	[gregorian setTimeZone:tz];
+	[gregorian setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	NSDateComponents *comp = [gregorian components:(NSMonthCalendarUnit | NSMinuteCalendarUnit | NSYearCalendarUnit | 
 													NSDayCalendarUnit | NSWeekdayCalendarUnit | NSHourCalendarUnit | NSSecondCalendarUnit) 
 										  fromDate:self];
@@ -171,7 +169,7 @@
 }
 
 - (NSDate *) nextMonth {
-	TKDateInformation info = [self dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation info = [self dateInformationGMT];
 	info.month++;
 	if(info.month>12){
 		info.month = 1;
@@ -185,7 +183,7 @@
 }
 
 - (NSDate *) previousMonth {
-	TKDateInformation info = [self dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation info = [self dateInformationGMT];
 	info.month--;
 	if(info.month<1){
 		info.month = 12;

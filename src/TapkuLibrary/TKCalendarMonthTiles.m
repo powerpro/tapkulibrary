@@ -86,14 +86,14 @@
 
 	NSDate *firstDate, *lastDate;
 
-	TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation info = [date dateInformationGMT];
 	info.day = 1;
 	info.hour = 0;
 	info.minute = 0;
 	info.second = 0;
 
 	NSDate *currentMonth = [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	info = [currentMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	info = [currentMonth dateInformationGMT];
 
 
 	NSDate *previousMonth = [currentMonth previousMonth];
@@ -101,7 +101,7 @@
 
 	if(info.weekday > 1 && sunday){
 
-		TKDateInformation info2 = [previousMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		TKDateInformation info2 = [previousMonth dateInformationGMT];
 
 		int preDayCnt = [previousMonth daysBetweenDate:currentMonth];
 		info2.day = preDayCnt - info.weekday + 2;
@@ -110,7 +110,7 @@
 
 	}else if(!sunday && info.weekday != 2){
 
-		TKDateInformation info2 = [previousMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		TKDateInformation info2 = [previousMonth dateInformationGMT];
 		int preDayCnt = [previousMonth daysBetweenDate:currentMonth];
 		if(info.weekday==1){
 			info2.day = preDayCnt - 5;
@@ -130,7 +130,7 @@
 	int daysInMonth = [currentMonth daysBetweenDate:nextMonth];
 	info.day = daysInMonth;
 	NSDate *lastInMonth = [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	TKDateInformation lastDateInfo = [lastInMonth dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation lastDateInfo = [lastInMonth dateInformationGMT];
 
 
 
@@ -171,7 +171,7 @@
 	self.monthDate = date;
     self.startsOnSunday = sunday;
 
-	TKDateInformation dateInfo = [self.monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation dateInfo = [self.monthDate dateInformationGMT];
     self.firstWeekday = dateInfo.weekday;
 
 
@@ -372,7 +372,7 @@
 - (NSDate*) dateSelected{
 	if(self.selectedDay < 1 || self.selectedPortion != 1) return nil;
 
-	TKDateInformation info = [self.monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation info = [self.monthDate dateInformationGMT];
 	info.hour = 0;
 	info.minute = 0;
 	info.second = 0;

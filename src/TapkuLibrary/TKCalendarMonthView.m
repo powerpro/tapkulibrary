@@ -166,7 +166,7 @@
 - (void)selectDate:(NSDate *)date animated:(BOOL)animated {
     [self updateViewToMonth:[date monthDate] animated:animated];
 
-    TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    TKDateInformation info = [date dateInformationGMT];
     [self.currentTile selectDay:info.day];
 }
 
