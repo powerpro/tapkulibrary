@@ -128,8 +128,6 @@
         label.frame = CGRectMake(46 * i, 29, 46, 15);
         [self addSubview:label];
     }
-
-    [self selectDate:[NSDate date]];
 }
 
 - (id)init {
@@ -174,7 +172,7 @@
 }
 
 - (void)reload {
-    [self updateViewToMonth:[self.currentTile monthDate] animated:NO];
+    [self selectDate:[NSDate date]];
 }
 
 #pragma mark TKCalendarMonthTilesDelegate
