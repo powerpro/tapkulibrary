@@ -181,21 +181,12 @@
     self.currentTile = [self tilesForMonth:[self.currentTile monthDate]];
 }
 
-- (void) tile:(NSArray*)ar{
-	if([ar count] >= 2){
-		int direction = [[ar lastObject] intValue];
-        if (direction > 1)
-            [self nextMonthPressed];
-        else
-            [self previousMonthPressed];
-        
-        int day = [[ar objectAtIndex:0] intValue];
-		[self.currentTile selectDay:day];
-	}
+#pragma mark TKCalendarMonthTilesDelegate
 
+- (void)dateWasSelected:(NSDate *)date {
+    [self selectDate:date];
     if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
   	    [self.delegate calendarMonthView:self didSelectDate:[self dateSelected]];
-	
 }
 
 #pragma mark Properties

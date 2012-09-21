@@ -460,16 +460,18 @@
 
 
 
-	if(portion == 1){
-        self.selectedDay = day;
-        self.selectedPortion = portion;
-        [self.delegate tile:[NSArray arrayWithObject:[NSNumber numberWithInt:day]]];
-	}else if(down){
-        [self.delegate tile:[NSArray arrayWithObjects:[NSNumber numberWithInt:day], [NSNumber numberWithInt:portion], nil]];
-        self.selectedDay = day;
-        self.selectedPortion = portion;
-	}
+    self.selectedDay = day;
+    self.selectedPortion = portion;
 
+    NSDate *monthDate;
+    if (portion == 1)
+        monthDate = self.monthDate;
+    else if (portion == 2)
+        monthDate = [self.monthDate nextMonth];
+    else
+        monthDate = [self.monthDate previousMonth];
+
+    [self.delegate dateWasSelected:[monthDate dateByAddingDays:(NSUInteger) (day - 1)]];
 }
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
 	//[super touchesBegan:touches withEvent:event];

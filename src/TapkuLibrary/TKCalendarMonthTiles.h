@@ -11,13 +11,13 @@
 
 @protocol TKCalendarMonthTilesDelegate
 
-- (void)tile:(NSArray *)ar;
+- (void)dateWasSelected:(NSDate *)date;
 
 @end
 
 @interface TKCalendarMonthTiles : UIView
 
-@property (nonatomic, weak) id <TKCalendarMonthTilesDelegate> delegate;
+@property (nonatomic, assign) id <TKCalendarMonthTilesDelegate> delegate;
 
 @property (strong,nonatomic) NSDate *monthDate;
 @property (nonatomic, strong) NSMutableArray *accessibleElements;
