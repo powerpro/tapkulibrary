@@ -135,16 +135,17 @@
 }
 
 - (id) init{
-	self = [self initWithSundayAsFirst:YES];
-	return self;
+	return [self initWithSundayAsFirst:YES];
 }
-- (id) initWithSundayAsFirst:(BOOL)sundayFirst {
-	if (!(self = [super initWithFrame:CGRectZero])) return nil;
-    self.sunday = sundayFirst;
 
-    [self setup];
+- (id)initWithSundayAsFirst:(BOOL)sundayFirst {
+    self = [super initWithFrame:CGRectZero];
+    if (self) {
+        self.sunday = sundayFirst;
+        [self setup];
+    }
 
-	return self;
+    return self;
 }
 
 - (TKCalendarMonthTiles *)tilesForMonth:(NSDate *)month {
