@@ -103,9 +103,9 @@
 	self = [self initWithSundayAsFirst:YES];
 	return self;
 }
-- (id) initWithSundayAsFirst:(BOOL)s{
+- (id) initWithSundayAsFirst:(BOOL)sundayFirst {
 	if (!(self = [super initWithFrame:CGRectZero])) return nil;
-    self.sunday = s;
+    self.sunday = sundayFirst;
 
     [self setup];
 

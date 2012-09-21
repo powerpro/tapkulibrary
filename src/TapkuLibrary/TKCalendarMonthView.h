@@ -43,7 +43,7 @@
  @param sunday Flag to setup the grid with Monday or Sunday as the leftmost day.
  @return A `TKCalendarMonthView` object or nil.
  */
-- (id) initWithSundayAsFirst:(BOOL)sunday; // or Monday
+- (id) initWithSundayAsFirst:(BOOL)sundayFirst; // or Monday
 
 /** The delegate must adopt the `TKCalendarMonthViewDelegate` protocol. The delegate is not retained. */
 @property (nonatomic,assign) id <TKCalendarMonthViewDelegate> delegate;
