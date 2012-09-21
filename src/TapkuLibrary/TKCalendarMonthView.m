@@ -58,30 +58,43 @@
 - (void)setup {
     self.currentTile = [self tilesForMonth:[[NSDate date] firstOfMonth]];
 
-    self.shadow = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Shadow.png")]];
-
     self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.currentTile.frame.size.height)];
     self.tileBox.clipsToBounds = YES;
-    
-    self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rightArrow.accessibilityLabel = @"Next Month";
-    [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:UIControlStateNormal];
-    [self.rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
-    self.rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
-    
-    self.leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.leftArrow.accessibilityLabel = @"Previous Month";
-    [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:UIControlStateNormal];
-    [self.leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
-  	self.leftArrow.frame = CGRectMake(0, 0, 48, 38);
-    
+    [self.tileBox addSubview:self.currentTile];
+    [self addSubview:self.tileBox];
+
+    CGRect r = CGRectMake(0, 0, self.tileBox.bounds.size.width, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
+   	self.frame = r;
+
+    self.topBackground =  [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Grid Top Bar.png")]];
+    self.topBackground.frame = CGRectMake(0, 0, self.bounds.size.width, self.topBackground.frame.size.height);
+    [self addSubview:self.topBackground];
+
     self.monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, self.tileBox.frame.size.width, 38), 40, 6)];
   	self.monthYear.textAlignment = NSTextAlignmentCenter;
   	self.monthYear.backgroundColor = [UIColor clearColor];
   	self.monthYear.font = [UIFont boldSystemFontOfSize:22];
   	self.monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
+    self.monthYear.text = [[NSDate date] monthYearString];
+   	[self addSubview:self.monthYear];
 
-    self.topBackground =  [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Grid Top Bar.png")]];
+    self.rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.rightArrow.accessibilityLabel = @"Next Month";
+    [self.rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:UIControlStateNormal];
+    [self.rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
+    self.rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
+    [self addSubview:self.rightArrow];
+
+    self.leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.leftArrow.accessibilityLabel = @"Previous Month";
+    [self.leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:UIControlStateNormal];
+    [self.leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
+  	self.leftArrow.frame = CGRectMake(0, 0, 48, 38);
+    [self addSubview:self.leftArrow];
+
+    self.shadow = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Shadow.png")]];
+    self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.bounds.size.width, self.shadow.frame.size.height);
+    [self addSubview:self.shadow];
 
     self.backgroundColor = [UIColor grayColor];
 }
@@ -95,26 +108,7 @@
     self.sunday = s;
 
     [self setup];
-	
-	CGRect r = CGRectMake(0, 0, self.tileBox.bounds.size.width, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
-	self.frame = r;
-	
-	[self addSubview:self.topBackground];
-	self.topBackground.frame = CGRectMake(0, 0, self.bounds.size.width, self.topBackground.frame.size.height);
-    [self.tileBox addSubview:self.currentTile];
-	[self addSubview:self.tileBox];
-	
-	NSDate *date = [NSDate date];
-	self.monthYear.text = [date monthYearString];
-	[self addSubview:self.monthYear];
-	
-	
-	[self addSubview:self.leftArrow];
-	[self addSubview:self.rightArrow];
-	[self addSubview:self.shadow];
-	self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.bounds.size.width, self.shadow.frame.size.height);
-	
-	
+
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"eee"];
 	[dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
