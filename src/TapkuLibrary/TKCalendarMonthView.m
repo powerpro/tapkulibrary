@@ -188,6 +188,10 @@
 #pragma mark Properties
 
 - (void)updateViewToMonth:(NSDate *)month animated:(BOOL)animated {
+    if ([[self monthDate] isEqualToDate:month]) return;
+
+    self.monthYear.text = [month monthYearString];
+
     NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
     NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
    	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:ar startDayOnSunday:self.sunday];
@@ -197,10 +201,6 @@
 }
 
 - (void)setCurrentTile:(TKCalendarMonthTiles *)newTile animated:(BOOL)animated {
-    self.monthYear.text = [[newTile monthDate] monthYearString];
-
-    if ([[_currentTile monthDate] isEqualToDate:[newTile monthDate]]) return;
-
     TKCalendarMonthTiles *currentTile = _currentTile;
 
     if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:[newTile monthDate] animated:animated] )
