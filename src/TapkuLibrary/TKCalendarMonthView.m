@@ -178,7 +178,7 @@
         }
         
 		label.text = s;
-		label.textAlignment = UITextAlignmentCenter;
+		label.textAlignment = NSTextAlignmentCenter;
 		label.shadowColor = [UIColor whiteColor];
 		label.shadowOffset = CGSizeMake(0, 1);
 		label.font = [UIFont systemFontOfSize:11];
