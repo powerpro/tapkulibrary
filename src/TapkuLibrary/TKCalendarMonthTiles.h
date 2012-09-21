@@ -15,18 +15,7 @@
 
 @end
 
-@interface TKCalendarMonthTiles : UIView {
-	int _firstOfPrev, _lastOfPrev;
-	NSArray *_marks;
-	int _today;
-	BOOL _markWasOnToday;
-
-	int _selectedDay, _selectedPortion;
-
-	int _firstWeekday, _daysInMonth;
-	UILabel *_dot;
-	BOOL _startOnSunday;
-}
+@interface TKCalendarMonthTiles : UIView
 
 @property (nonatomic, weak) id <TKCalendarMonthTilesDelegate> delegate;
 

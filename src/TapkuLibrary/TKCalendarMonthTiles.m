@@ -7,10 +7,25 @@
 
 
 #import "TKCalendarMonthTiles.h"
-#import "TKGlobal.h"
 #import "TapkuLibrary.h"
 #import "NSDate+CalendarGrid.h"
 
+
+@interface TKCalendarMonthTiles ()
+
+@property (nonatomic) BOOL startsOnSunday;
+@property (nonatomic) BOOL markWasOnToday;
+@property (nonatomic) int today;
+@property (nonatomic) int firstOfPrev;
+@property (nonatomic) int lastOfPrev;
+@property (nonatomic) int selectedDay;
+@property (nonatomic) int selectedPortion;
+@property (nonatomic) int firstWeekday;
+@property (nonatomic) int daysInMonth;
+
+@property (nonatomic, strong) NSArray *marks;
+
+@end
 
 @implementation TKCalendarMonthTiles
 
@@ -21,7 +36,7 @@
 - (BOOL) isAccessibilityElement{
     return NO;
 }
-- (NSArray *) accessibleElements{
+- (NSMutableArray *) accessibleElements{
     if (_accessibleElements!=nil) return _accessibleElements;
 
     _accessibleElements = [[NSMutableArray alloc] init];
@@ -35,7 +50,7 @@
 
 	NSDate *firstDate = [self.datesArray objectAtIndex:0];
 
-	for(int i=0;i< _marks.count;i++){
+	for(int i=0;i< self.marks.count;i++){
 		UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
 
 		NSDate *day = [NSDate dateWithTimeIntervalSinceReferenceDate:[firstDate timeIntervalSinceReferenceDate]+(24*60*60*i)+5];
@@ -46,7 +61,7 @@
 
 		element.accessibilityFrame = r;
 		element.accessibilityTraits = UIAccessibilityTraitButton;
-		element.accessibilityValue = [[_marks objectAtIndex:i] boolValue] ? @"Has Events" : @"No Events";
+		element.accessibilityValue = [[self.marks objectAtIndex:i] boolValue] ? @"Has Events" : @"No Events";
 		[_accessibleElements addObject:element];
 
 	}
@@ -152,17 +167,17 @@
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday{
 	if(!(self=[super initWithFrame:CGRectZero])) return nil;
 
-	_firstOfPrev = -1;
-	_marks = markArray;
-	_monthDate = date;
-	_startOnSunday = sunday;
+    self.firstOfPrev = -1;
+    self.marks = markArray;
+	self.monthDate = date;
+    self.startsOnSunday = sunday;
 
-	TKDateInformation dateInfo = [_monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	_firstWeekday = dateInfo.weekday;
+	TKDateInformation dateInfo = [self.monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    self.firstWeekday = dateInfo.weekday;
 
 
-	NSDate *prev = [_monthDate previousMonth];
-	_daysInMonth = [[_monthDate nextMonth] daysBetweenDate:_monthDate];
+	NSDate *prev = [self.monthDate previousMonth];
+    self.daysInMonth = [[self.monthDate nextMonth] daysBetweenDate:self.monthDate];
 
 
 	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:date startOnSunday:sunday];
@@ -173,20 +188,20 @@
 
 
 	TKDateInformation todayInfo = [[NSDate date] dateInformation];
-	_today = dateInfo.month == todayInfo.month && dateInfo.year == todayInfo.year ? todayInfo.day : -5;
+    self.today = dateInfo.month == todayInfo.month && dateInfo.year == todayInfo.year ? todayInfo.day : -5;
 
-	int preDayCnt = [prev daysBetweenDate:_monthDate];
-	if(_firstWeekday >1 && sunday){
-		_firstOfPrev = preDayCnt - _firstWeekday +2;
-		_lastOfPrev = preDayCnt;
-	}else if(!sunday && _firstWeekday != 2){
+	int preDayCnt = [prev daysBetweenDate:self.monthDate];
+	if(self.firstWeekday >1 && sunday){
+        self.firstOfPrev = preDayCnt - self.firstWeekday +2;
+        self.lastOfPrev = preDayCnt;
+	}else if(!sunday && self.firstWeekday != 2){
 
-		if(_firstWeekday ==1){
-			_firstOfPrev = preDayCnt - 5;
+		if(self.firstWeekday ==1){
+            self.firstOfPrev = preDayCnt - 5;
 		}else{
-			_firstOfPrev = preDayCnt - _firstWeekday +3;
+            self.firstOfPrev = preDayCnt - self.firstWeekday +3;
 		}
-		_lastOfPrev = preDayCnt;
+        self.lastOfPrev = preDayCnt;
 	}
 
 
@@ -238,9 +253,9 @@
 	CGRect r = CGRectMake(0, 0, 46, 44);
 	CGContextDrawTiledImage(context, r, tile.CGImage);
 
-	if(_today > 0){
-		int pre = _firstOfPrev > 0 ? _lastOfPrev - _firstOfPrev + 1 : 0;
-		int index = _today +  pre-1;
+	if(self.today > 0){
+		int pre = self.firstOfPrev > 0 ? self.lastOfPrev - self.firstOfPrev + 1 : 0;
+		int index = self.today +  pre-1;
 		CGRect r =[self rectForCellAtIndex:index];
 		r.origin.y -= 7;
 		[[UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Today Tile.png")] drawInRect:r];
@@ -252,12 +267,12 @@
 	UIFont *font2 =[UIFont boldSystemFontOfSize:dotFontSize];
 	UIColor *color = [UIColor grayColor];
 
-	if(_firstOfPrev >0){
+	if(self.firstOfPrev >0){
 		[color set];
-		for(int i = _firstOfPrev;i<= _lastOfPrev;i++){
+		for(int i = self.firstOfPrev;i<= self.lastOfPrev;i++){
 			r = [self rectForCellAtIndex:index];
-			if ([_marks count] > 0)
-				[self drawTileInRect:r day:i mark:[[_marks objectAtIndex:index] boolValue] font:font font2:font2];
+			if ([self.marks count] > 0)
+				[self drawTileInRect:r day:i mark:[[self.marks objectAtIndex:index] boolValue] font:font font2:font2];
 			else
 				[self drawTileInRect:r day:i mark:NO font:font font2:font2];
 			index++;
@@ -267,16 +282,16 @@
 
 	color = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
 	[color set];
-	for(int i=1; i <= _daysInMonth; i++){
+	for(int i=1; i <= self.daysInMonth; i++){
 
 		r = [self rectForCellAtIndex:index];
-		if(_today == i) [[UIColor whiteColor] set];
+		if(self.today == i) [[UIColor whiteColor] set];
 
-		if ([_marks count] > 0)
-			[self drawTileInRect:r day:i mark:[[_marks objectAtIndex:index] boolValue] font:font font2:font2];
+		if ([self.marks count] > 0)
+			[self drawTileInRect:r day:i mark:[[self.marks objectAtIndex:index] boolValue] font:font font2:font2];
 		else
 			[self drawTileInRect:r day:i mark:NO font:font font2:font2];
-		if(_today == i) [color set];
+		if(self.today == i) [color set];
 		index++;
 	}
 
@@ -284,8 +299,8 @@
 	int i = 1;
 	while(index % 7 != 0){
 		r = [self rectForCellAtIndex:index] ;
-		if ([_marks count] > 0)
-			[self drawTileInRect:r day:i mark:[[_marks objectAtIndex:index] boolValue] font:font font2:font2];
+		if ([self.marks count] > 0)
+			[self drawTileInRect:r day:i mark:[[self.marks objectAtIndex:index] boolValue] font:font font2:font2];
 		else
 			[self drawTileInRect:r day:i mark:NO font:font font2:font2];
 		i++;
@@ -297,22 +312,22 @@
 
 - (void) selectDay:(int)day{
 
-	int pre = _firstOfPrev < 0 ?  0 : _lastOfPrev - _firstOfPrev + 1;
+	int pre = self.firstOfPrev < 0 ?  0 : self.lastOfPrev - self.firstOfPrev + 1;
 
 	int tot = day + pre;
 	int row = tot / 7;
 	int column = (tot % 7)-1;
 
-	_selectedDay = day;
-	_selectedPortion = 1;
+    self.selectedDay = day;
+	self.selectedPortion = 1;
 
 
-	if(day == _today){
+	if(day == self.today){
 		self.currentDay.shadowOffset = CGSizeMake(0, 1);
 		self.dot.shadowOffset = CGSizeMake(0, 1);
 		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Today Selected Tile.png")];
-		_markWasOnToday = YES;
-	}else if(_markWasOnToday){
+        self.markWasOnToday = YES;
+	}else if(self.markWasOnToday){
 		self.dot.shadowOffset = CGSizeMake(0, -1);
 		self.currentDay.shadowOffset = CGSizeMake(0, -1);
 
@@ -320,7 +335,7 @@
 
 		NSString *path = TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Date Tile Selected.png");
 		self.selectedImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-		_markWasOnToday = NO;
+        self.markWasOnToday = NO;
 	}
 
 
@@ -328,9 +343,9 @@
 	[self addSubview:self.selectedImageView];
 	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
 
-	if ([_marks count] > 0) {
+	if ([self.marks count] > 0) {
 
-		if([[_marks objectAtIndex:row * 7 + column] boolValue]){
+		if([[self.marks objectAtIndex:row * 7 + column] boolValue]){
 			[self.selectedImageView addSubview:self.dot];
 		}else{
 			[self.dot removeFromSuperview];
@@ -356,13 +371,13 @@
 
 }
 - (NSDate*) dateSelected{
-	if(_selectedDay < 1 || _selectedPortion != 1) return nil;
+	if(self.selectedDay < 1 || self.selectedPortion != 1) return nil;
 
-	TKDateInformation info = [_monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	TKDateInformation info = [self.monthDate dateInformationWithTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	info.hour = 0;
 	info.minute = 0;
 	info.second = 0;
-	info.day = _selectedDay;
+	info.day = self.selectedDay;
 	NSDate *d = [NSDate dateFromDateInformation:info timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 
 
@@ -382,35 +397,35 @@
 
 	if(row == (int) (self.bounds.size.height / 44)) row --;
 
-	int fir = _firstWeekday - 1;
-	if(!_startOnSunday && fir == 0) fir = 7;
-	if(!_startOnSunday) fir--;
+	int fir = self.firstWeekday - 1;
+	if(!self.startsOnSunday && fir == 0) fir = 7;
+	if(!self.startsOnSunday) fir--;
 
 
 	if(row==0 && column < fir){
-		day = _firstOfPrev + column;
+		day = self.firstOfPrev + column;
 	}else{
 		portion = 1;
-		day = row * 7 + column  - _firstWeekday +2;
-		if(!_startOnSunday) day++;
-		if(!_startOnSunday && fir==6) day -= 7;
+		day = row * 7 + column  - self.firstWeekday +2;
+		if(!self.startsOnSunday) day++;
+		if(!self.startsOnSunday && fir==6) day -= 7;
 
 	}
-	if(portion > 0 && day > _daysInMonth){
+	if(portion > 0 && day > self.daysInMonth){
 		portion = 2;
-		day = day - _daysInMonth;
+		day = day - self.daysInMonth;
 	}
 
 
 	if(portion != 1){
 		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Date Tile Gray.png")];
-		_markWasOnToday = YES;
-	}else if(portion==1 && day == _today){
+        self.markWasOnToday = YES;
+	}else if(portion==1 && day == self.today){
 		self.currentDay.shadowOffset = CGSizeMake(0, 1);
 		self.dot.shadowOffset = CGSizeMake(0, 1);
 		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Today Selected Tile.png")];
-		_markWasOnToday = YES;
-	}else if(_markWasOnToday){
+        self.markWasOnToday = YES;
+	}else if(self.markWasOnToday){
 		self.dot.shadowOffset = CGSizeMake(0, -1);
 		self.currentDay.shadowOffset = CGSizeMake(0, -1);
 
@@ -418,14 +433,14 @@
 		NSString *path = TKBUNDLE(@"TapkuLibrary.bundle/Images/calendar/Month Calendar Date Tile Selected.png");
 		self.selectedImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
 
-		_markWasOnToday = NO;
+        self.markWasOnToday = NO;
 	}
 
 	[self addSubview:self.selectedImageView];
 	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
 
-	if ([_marks count] > 0) {
-		if([[_marks objectAtIndex:row * 7 + column] boolValue])
+	if ([self.marks count] > 0) {
+		if([[self.marks objectAtIndex:row * 7 + column] boolValue])
 			[self.selectedImageView addSubview:self.dot];
 		else
 			[self.dot removeFromSuperview];
@@ -441,18 +456,18 @@
 	r.origin.y = (row*44)-1;
 	self.selectedImageView.frame = r;
 
-	if(day == _selectedDay && _selectedPortion == portion) return;
+	if(day == self.selectedDay && self.selectedPortion == portion) return;
 
 
 
 	if(portion == 1){
-		_selectedDay = day;
-		_selectedPortion = portion;
+        self.selectedDay = day;
+        self.selectedPortion = portion;
         [self.delegate tile:[NSArray arrayWithObject:[NSNumber numberWithInt:day]]];
 	}else if(down){
         [self.delegate tile:[NSArray arrayWithObjects:[NSNumber numberWithInt:day], [NSNumber numberWithInt:portion], nil]];
-		_selectedDay = day;
-		_selectedPortion = portion;
+        self.selectedDay = day;
+        self.selectedPortion = portion;
 	}
 
 }
@@ -476,7 +491,7 @@
 		_currentDay.textColor = [UIColor whiteColor];
 		_currentDay.backgroundColor = [UIColor clearColor];
 		_currentDay.font = [UIFont boldSystemFontOfSize:dateFontSize];
-		_currentDay.textAlignment = UITextAlignmentCenter;
+		_currentDay.textAlignment = NSTextAlignmentCenter;
 		_currentDay.shadowColor = [UIColor darkGrayColor];
 		_currentDay.shadowOffset = CGSizeMake(0, -1);
 	}
@@ -493,7 +508,7 @@
 		_dot.textColor = [UIColor whiteColor];
 		_dot.backgroundColor = [UIColor clearColor];
 		_dot.font = [UIFont boldSystemFontOfSize:dotFontSize];
-		_dot.textAlignment = UITextAlignmentCenter;
+		_dot.textAlignment = NSTextAlignmentCenter;
 		_dot.shadowColor = [UIColor darkGrayColor];
 		_dot.shadowOffset = CGSizeMake(0, -1);
 	}
