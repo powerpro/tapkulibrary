@@ -53,21 +53,12 @@ typedef struct TKDateInformation TKDateInformation;
 
 + (NSDate *) yesterday;
 
-
-/** Creates and returns a new date set to the current month.
- @return A `NSDate` object set to the current month.
- */
-+ (NSDate *) month;
-
 /** Creates and returns a new date set to the first day of the month from the date object.
  @return A `NSDate` object set to the same month as the date object. The day will be the first of the month.
  */
 - (NSDate *) monthDate;
 
-
-
 - (BOOL) isSameDay:(NSDate*)anotherDate;
-- (int) monthsBetweenDate:(NSDate *)toDate;
 - (NSInteger) daysBetweenDate:(NSDate*)date;
 
 /** Returns a Boolean value that indicates whether the date object is that same date information as the current day. 
@@ -75,20 +66,15 @@ typedef struct TKDateInformation TKDateInformation;
  */
 - (BOOL) isToday;
 
-
 - (NSDate *) dateByAddingDays:(NSUInteger)days;
 + (NSDate *) dateWithDatePart:(NSDate *)aDate andTimePart:(NSDate *)aTime;
 
 - (NSString *) monthYearString;
-- (NSString *) monthString;
-- (NSString *) yearString;
-
 
 - (TKDateInformation) dateInformation;
 - (TKDateInformation) dateInformationWithTimeZone:(NSTimeZone*)tz;
 + (NSDate*) dateFromDateInformation:(TKDateInformation)info;
 + (NSDate*) dateFromDateInformation:(TKDateInformation)info timeZone:(NSTimeZone*)tz;
-+ (NSString*) dateInformationDescriptionWithInformation:(TKDateInformation)info;
 
 - (NSDate *)nextMonth;
 - (NSDate *)previousMonth;

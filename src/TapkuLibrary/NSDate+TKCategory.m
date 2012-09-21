@@ -38,9 +38,6 @@
 	inf.day--;
 	return [NSDate dateFromDateInformation:inf];
 }
-+ (NSDate*) month{
-    return [[NSDate date] monthDate];
-}
 
 - (NSDate*) monthDate {
 	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -50,45 +47,12 @@
     return date;
 }
 
-
-- (int) weekday{
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *comps = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:self];
-	int weekday = [comps weekday];
-	return weekday;
-}
-- (NSDate*) timelessDate {
-	NSDate *day = self;
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:day];
-	return [gregorian dateFromComponents:comp];
-}
-- (NSDate*) monthlessDate {
-	NSDate *day = self;
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:day];
-	return [gregorian dateFromComponents:comp];
-}
-
-
-
 - (BOOL) isSameDay:(NSDate*)anotherDate{
 	NSCalendar* calendar = [NSCalendar currentCalendar];
 	NSDateComponents* components1 = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:self];
 	NSDateComponents* components2 = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:anotherDate];
 	return ([components1 year] == [components2 year] && [components1 month] == [components2 month] && [components1 day] == [components2 day]);
 } 
-
-- (int) monthsBetweenDate:(NSDate *)toDate{
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    
-    NSDateComponents *components = [gregorian components:NSMonthCalendarUnit
-                                                fromDate:[self monthlessDate]
-                                                  toDate:[toDate monthlessDate]
-                                                 options:0];
-    NSInteger months = [components month];
-    return abs(months);
-}
 
 - (NSInteger) daysBetweenDate:(NSDate*)date {
     NSTimeInterval time = [self timeIntervalSinceDate:date];
@@ -128,19 +92,6 @@
 																locale:[NSLocale currentLocale]];
     return [dateFormatter stringFromDate:self];
 }
-
-- (NSString*) monthString{
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];	
-	[dateFormatter setDateFormat:@"MMMM"];
-	return [dateFormatter stringFromDate:self];
-}
-- (NSString*) yearString{
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];	
-	[dateFormatter setDateFormat:@"yyyy"];
-	return [dateFormatter stringFromDate:self];
-}
-
-
 
 - (TKDateInformation) dateInformationWithTimeZone:(NSTimeZone*)tz{
 	
@@ -217,10 +168,6 @@
 	//[comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 	
 	return [gregorian dateFromComponents:comp];
-}
-
-+ (NSString*) dateInformationDescriptionWithInformation:(TKDateInformation)info{
-	return [NSString stringWithFormat:@"%d %d %d %d:%d:%d",info.month,info.day,info.year,info.hour,info.minute,info.second];
 }
 
 - (NSDate *) nextMonth {
