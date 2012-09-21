@@ -475,8 +475,6 @@
 		3BBF8A4012970B10008AB2B1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				35CDF660F0EEC50B75BA2CC3 /* TKCalendarMonthTiles.h */,
-				35CDF3B01924C7B619707A9B /* TKCalendarMonthTiles.m */,
 				3BAC9A1D10953E5200F235F1 /* TKGlobal.h */,
 				3BAC9A1E10953E5200F235F1 /* TKGlobal.m */,
 				3BB3A1D1117814BC00553093 /* Additions */,
@@ -524,6 +522,8 @@
 		3BF002FE109662E30062DA49 /* Month */ = {
 			isa = PBXGroup;
 			children = (
+				35CDF3B01924C7B619707A9B /* TKCalendarMonthTiles.m */,
+				35CDF660F0EEC50B75BA2CC3 /* TKCalendarMonthTiles.h */,
 				3BAC99FE10953E2400F235F1 /* TKCalendarMonthViewController.h */,
 				3BAC99FF10953E2400F235F1 /* TKCalendarMonthViewController.m */,
 				3B879FC4109BFC07002012FD /* TKCalendarMonthTableViewController.h */,
