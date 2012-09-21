@@ -71,7 +71,7 @@
 }
 
 - (void)setup {
-    self.currentTile = [self tilesForMonth:[[NSDate date] firstOfMonth]];
+    [self setCurrentTile:[self tilesForMonth:[[NSDate date] firstOfMonth]] animated:NO];
 
     self.tileBox = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.currentTile.frame.size.height)];
     self.tileBox.clipsToBounds = YES;
@@ -156,11 +156,11 @@
 }
 
 - (void)nextMonthPressed {
-    self.currentTile = [self tilesForMonth:[self.currentTile.monthDate nextMonth]];
+    [self setCurrentTile:[self tilesForMonth:[self.currentTile.monthDate nextMonth]] animated:YES];
 }
 
 - (void)previousMonthPressed {
-    self.currentTile = [self tilesForMonth:[self.currentTile.monthDate previousMonth]];
+    [self setCurrentTile:[self tilesForMonth:[self.currentTile.monthDate previousMonth]] animated:YES];
 }
 
 - (NSDate *)dateSelected {
@@ -172,14 +172,14 @@
 }
 
 - (void)selectDate:(NSDate *)date {
-    self.currentTile = [self tilesForMonth:[date firstOfMonth]];
+    [self setCurrentTile:[self tilesForMonth:[date firstOfMonth]]  animated:YES];
 
     TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [self.currentTile selectDay:info.day];
 }
 
 - (void)reload {
-    self.currentTile = [self tilesForMonth:[self.currentTile monthDate]];
+    [self setCurrentTile:[self tilesForMonth:[self.currentTile monthDate]] animated:NO];
 }
 
 #pragma mark TKCalendarMonthTilesDelegate
@@ -192,20 +192,18 @@
 
 #pragma mark Properties
 
-- (void)setCurrentTile:(TKCalendarMonthTiles *)newTile {
+- (void)setCurrentTile:(TKCalendarMonthTiles *)newTile animated:(BOOL)animated {
     self.monthYear.text = [[newTile monthDate] monthYearString];
 
     if ([[_currentTile monthDate] isEqualToDate:[newTile monthDate]]) return;
 
     TKCalendarMonthTiles *currentTile = _currentTile;
-    float animation = (currentTile == nil) ? 0 : 1;
-    BOOL shouldAnimate = animation > 0;
 
-    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:[newTile monthDate] animated:shouldAnimate] )
+    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:[newTile monthDate] animated:animated] )
    		return;
 
    	if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
-   		[self.delegate calendarMonthView:self monthWillChange:[newTile monthDate] animated:shouldAnimate];
+   		[self.delegate calendarMonthView:self monthWillChange:[newTile monthDate] animated:animated];
 
     _currentTile = newTile;
 
@@ -229,11 +227,13 @@
 
     self.userInteractionEnabled = NO;
 
-    [UIView animateWithDuration:animation * 0.1 animations:^{
+    float animationConstant = animated ? 1 : 0;
+
+    [UIView animateWithDuration:animationConstant * 0.1 animations:^{
         newTile.alpha = 1;
     }];
 
-    [UIView animateWithDuration:animation * 0.4 delay:animation * 0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:animationConstant * 0.4 delay:animationConstant * 0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         if (isNext) {
             currentTile.frame = CGRectMake(0, -1 * currentTile.bounds.size.height + overlap + 2, currentTile.frame.size.width, currentTile.frame.size.height);
        		newTile.frame = CGRectMake(0, 1, newTile.frame.size.width, newTile.frame.size.height);
@@ -253,7 +253,7 @@
         self.userInteractionEnabled = YES;
 
         if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
-      	    [self.delegate calendarMonthView:self monthDidChange:[newTile monthDate] animated:shouldAnimate];
+      	    [self.delegate calendarMonthView:self monthDidChange:[newTile monthDate] animated:animated];
     }];
 }
 
