@@ -175,4 +175,21 @@
 	return [NSDate dateFromDateInformation:info];
 }
 
+- (NSArray *)datesInMonth {
+    NSMutableArray *array = [NSMutableArray array];
+    
+    NSRange days = [[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self];
+
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSYearCalendarUnit | NSMonthCalendarUnit fromDate:self];
+    NSDate *firstDate = [[NSCalendar currentCalendar] dateFromComponents:components];
+
+    for (int i = 0; i < days.length; i++) {
+        NSDateComponents *c = [[NSDateComponents alloc] init];
+        c.day = i;
+        [array addObject:[[NSCalendar currentCalendar] dateByAddingComponents:c toDate:firstDate options:0]];
+    }
+
+    return array;
+}
+
 @end

@@ -119,10 +119,10 @@
 /** A data source that will correspond to marks for the calendar month grid for a particular month.
  
  @param monthView The calendar month grid.
- @param startDate The first date shown by the calendar month grid.
- @param lastDate The last date shown by the calendar month grid.
- @return Returns an array of NSNumber objects corresponding the number of days specified in the start and last day parameters. Each NSNumber variable will give a BOOL value that will be used to display a dot under the day.
+ @param date The date shown by the calendar month grid.
+ @return Returns YES if the day should show a mark, NO if not.
  
  */
-- (NSArray *)calendarMonthView:(TKCalendarMonthView *)monthView marksFromDate:(NSDate *)startDate toDate:(NSDate *)lastDate;
+- (BOOL *)calendarMonthView:(TKCalendarMonthView *)monthView marksDate:(NSDate *)date;
+
 @end

@@ -76,4 +76,6 @@ typedef struct TKDateInformation TKDateInformation;
 - (NSDate *)nextMonth;
 - (NSDate *)previousMonth;
 
+- (NSArray *)datesInMonth;
+
 @end

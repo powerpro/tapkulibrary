@@ -70,10 +70,4 @@
 	
 }
 
-
-- (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate{
-	return nil;
-}
-
-
 @end

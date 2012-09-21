@@ -195,11 +195,19 @@
 
     self.monthYear.text = [month monthYearString];
 
-    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday];
-    NSArray *ar = nil;
-    if ([self.dataSource respondsToSelector:@selector(calendarMonthView:marksFromDate:toDate:)])
-        ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
-   	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:ar startDayOnSunday:self.sunday];
+    NSArray *dates = [month datesInMonth];
+
+    NSMutableArray *array = [NSMutableArray array];
+    if ([self.dataSource respondsToSelector:@selector(calendarMonthView:marksDate:)]) {
+        for (NSDate *date in dates) {
+            if ([self.dataSource calendarMonthView:self marksDate:date]) {
+                NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:date];
+                [array addObject:[NSNumber numberWithInt:components.day]];
+            }
+        }
+    }
+
+   	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:array startDayOnSunday:self.sunday];
     newTile.delegate = self;
 
     TKCalendarMonthTiles *currentTile = _currentTile;
