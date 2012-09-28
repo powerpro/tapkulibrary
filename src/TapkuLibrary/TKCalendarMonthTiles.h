@@ -25,7 +25,7 @@
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)marks startDayOnSunday:(BOOL)sunday;
 
 - (void) selectDay:(int)day;
-- (NSDate*) dateSelected;
+- (NSDate*)dateSelected;
 
 @property (strong,nonatomic) UIImageView *selectedImageView;
 @property (strong,nonatomic) UILabel *currentDay;

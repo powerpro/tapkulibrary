@@ -55,13 +55,12 @@
 	return [self isSameDay:[NSDate date]];
 } 
 
-
-
-- (NSDate *) dateByAddingDays:(NSUInteger)days {
-	NSDateComponents *c = [[NSDateComponents alloc] init];
-	c.day = days;
-	return [[NSCalendar currentCalendar] dateByAddingComponents:c toDate:self options:0];
+- (NSDate *)dateByAddingDays:(NSUInteger)days {
+	NSDateComponents *components = [[NSDateComponents alloc] init];
+	components.day = days;
+	return [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:self options:0];
 }
+
 + (NSDate *) dateWithDatePart:(NSDate *)aDate andTimePart:(NSDate *)aTime {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateFormat:@"dd/MM/yyyy"];

@@ -231,22 +231,12 @@
 
 
 }
-- (NSDate*) dateSelected{
+
+- (NSDate *)dateSelected {
 	if(self.selectedDay < 1 || self.selectedPortion != 1) return nil;
 
-	TKDateInformation info = [self.monthDate dateInformationGMT];
-	info.hour = 0;
-	info.minute = 0;
-	info.second = 0;
-	info.day = self.selectedDay;
-	NSDate *d = [NSDate dateFromDateInformation:info];
-
-
-
-	return d;
-
+	return [self.monthDate dateByAddingDays:(NSUInteger) self.selectedDay];
 }
-
 
 - (void) reactToTouch:(UITouch*)touch down:(BOOL)down{
 

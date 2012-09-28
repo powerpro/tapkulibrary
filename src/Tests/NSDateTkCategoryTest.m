@@ -121,4 +121,11 @@
     STAssertEqualObjects([date monthDate], monthDate, @"");
 }
 
+- (void)testDateByAddingDays {
+    NSDate *july2012 = [self dateFromMonth:7 year:2012];
+    NSDate *august2012 = [self dateFromMonth:8 year:2012];
+
+    STAssertEqualObjects([july2012 dateByAddingDays:31], august2012, @"");
+}
+
 @end
