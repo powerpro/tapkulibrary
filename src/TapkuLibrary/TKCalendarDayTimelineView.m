@@ -214,26 +214,29 @@
 		for (TKCalendarDayEventView *event in self.events) {
 			// Making sure delgate sending date that match current day
 			if ([event.startDate isSameDay:self.currentDay]) {
-				// Get the hour start position
-				NSInteger hourStart = [event.startDate dateInformation].hour;
+                TKDateInformation startDateInformation = [event.startDate dateInformation];
+                
+                // Get the hour start position
+                NSInteger hourStart = startDateInformation.hour;
 				CGFloat hourStartPosition = roundf((hourStart * VERTICAL_DIFF) + VERTICAL_OFFSET + ((FONT_SIZE + 4.0) / 2.0));
 				// Get the minute start position
 				// Round minute to each 5
-				NSInteger minuteStart = [event.startDate dateInformation].minute;
+				NSInteger minuteStart = startDateInformation.minute;
 				minuteStart = round(minuteStart / 5.0) * 5;
 				CGFloat minuteStartPosition = roundf((CGFloat)minuteStart / 60.0f * VERTICAL_DIFF);
-				
-				
-				
-				// Get the hour end position
-				NSInteger hourEnd = [event.endDate dateInformation].hour;
+
+                
+                TKDateInformation endDateInformation = [event.endDate dateInformation];
+
+                // Get the hour end position
+                NSInteger hourEnd = endDateInformation.hour;
 				if (![event.startDate isSameDay:event.endDate]) {
 					hourEnd = 23;
 				}
 				CGFloat hourEndPosition = roundf((hourEnd * VERTICAL_DIFF) + VERTICAL_OFFSET + ((FONT_SIZE + 4.0) / 2.0));
 				// Get the minute end position
 				// Round minute to each 5
-				NSInteger minuteEnd = [event.endDate dateInformation].minute;
+				NSInteger minuteEnd = endDateInformation.minute;
 				if (![event.startDate isSameDay:event.endDate]) {
 					minuteEnd = 55;
 				}
