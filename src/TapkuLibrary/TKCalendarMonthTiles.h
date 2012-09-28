@@ -33,6 +33,5 @@
 @property (strong,nonatomic) UIImageView *selectedImageView;
 @property (strong,nonatomic) UILabel *currentDay;
 @property (strong,nonatomic) UILabel *dot;
-@property (nonatomic,strong) NSArray *datesArray;
 
 @end
