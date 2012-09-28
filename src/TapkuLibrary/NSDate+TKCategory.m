@@ -34,11 +34,9 @@
 @implementation NSDate (TKCategory)
 
 - (NSDate*) monthDate {
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:self];
-	[comp setDay:1];
-	NSDate *date = [gregorian dateFromComponents:comp];
-    return date;
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	NSDateComponents *components = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:self];
+    return [calendar dateFromComponents:components];
 }
 
 - (BOOL) isSameDay:(NSDate*)anotherDate{

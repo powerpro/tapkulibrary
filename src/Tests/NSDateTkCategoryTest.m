@@ -14,12 +14,16 @@
 
 #pragma mark Helpers
 
-- (NSDate *)dateFromMonth:(NSUInteger)month year:(NSUInteger)year {
+- (NSCalendar *)calendar {
+    return [NSCalendar currentCalendar];
+}
+
+- (NSDate *)dateFromMonth:(NSInteger)month year:(NSInteger)year {
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components.month = month;
     components.year = year;
 
-    return [[NSCalendar currentCalendar] dateFromComponents:components];
+    return [[self calendar] dateFromComponents:components];
 }
 
 #pragma mark Sunday first day tests
@@ -104,6 +108,17 @@
     NSDate *december2011 = [self dateFromMonth:12 year:2011];
 
     STAssertEqualObjects([january2012 previousMonth], december2011, @"");
+}
+
+#pragma mark Month Date tests
+
+- (void)testMonthDate {
+    NSDate *date = [NSDate date];
+    NSDateComponents *components = [[self calendar] components:NSMonthCalendarUnit | NSYearCalendarUnit fromDate:date];
+
+    NSDate *monthDate = [self dateFromMonth:components.month year:components.year];
+
+    STAssertEqualObjects([date monthDate], monthDate, @"");
 }
 
 @end
