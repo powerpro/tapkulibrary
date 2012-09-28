@@ -238,7 +238,7 @@
 	return [self.monthDate dateByAddingDays:(NSUInteger) self.selectedDay];
 }
 
-- (void) reactToTouch:(UITouch*)touch down:(BOOL)down{
+- (void)reactToTouch:(UITouch *)touch {
 
 	CGPoint p = [touch locationInView:self];
 	if(p.y > self.bounds.size.height || p.y < 0) return;
@@ -324,16 +324,22 @@
 
     [self.delegate dateWasSelected:[monthDate dateByAddingDays:(NSUInteger) (day - 1)]];
 }
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-	//[super touchesBegan:touches withEvent:event];
-	[self reactToTouch:[touches anyObject] down:NO];
+
+#pragma mark UIResponder touch events
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self reactToTouch:[touches anyObject]];
 }
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-	[self reactToTouch:[touches anyObject] down:NO];
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self reactToTouch:[touches anyObject]];
 }
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-	[self reactToTouch:[touches anyObject] down:YES];
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self reactToTouch:[touches anyObject]];
 }
+
+#pragma mark Properties
 
 - (UILabel *) currentDay{
 	if(_currentDay ==nil){
