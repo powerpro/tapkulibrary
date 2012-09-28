@@ -12,80 +12,98 @@
 
 @implementation NSDateTkCategoryTest
 
+#pragma mark Helpers
+
+- (NSDate *)dateFromMonth:(NSUInteger)month year:(NSUInteger)year {
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.month = month;
+    components.year = year;
+
+    return [[NSCalendar currentCalendar] dateFromComponents:components];
+}
+
 #pragma mark Sunday first day tests
 
 - (void)testFourRowsInMonth_Sunday {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.month = 2;
-    components.year = 2009;
+    NSDate *august2009 = [self dateFromMonth:2 year:2009];
 
-    NSDate *august2009 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSUInteger rowCount = [august2009 rowsOnCalendarStartingOnSunday:YES];
 
-    NSUInteger i = [august2009 rowsOnCalendarStartingOnSunday:YES];
-
-    STAssertEquals(4u, i, @"There should be four rows in February 2009 starting on Sunday");
+    STAssertEquals(4u, rowCount, @"There should be four rows in February 2009 starting on Sunday");
 }
 
 - (void)testFiveRowsInMonth_Sunday {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.month = 7;
-    components.year = 2012;
+    NSDate *july2012 = [self dateFromMonth:7 year:2012];
 
-    NSDate *july2012 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSUInteger rowCount = [july2012 rowsOnCalendarStartingOnSunday:YES];
 
-    NSUInteger i = [july2012 rowsOnCalendarStartingOnSunday:YES];
-
-    STAssertEquals(5u, i, @"There should be five rows in July 2012 starting on Sunday");
+    STAssertEquals(5u, rowCount, @"There should be five rows in July 2012 starting on Sunday");
 }
 
 - (void)testSixRowsInMonth_Sunday {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.month = 9;
-    components.year = 2012;
+    NSDate *september2012 = [self dateFromMonth:9 year:2012];
 
-    NSDate *september2012 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSUInteger rowCount = [september2012 rowsOnCalendarStartingOnSunday:YES];
 
-    NSUInteger i = [september2012 rowsOnCalendarStartingOnSunday:YES];
-
-    STAssertEquals(6u, i, @"There should be six rows in September 2012 starting on Sunday");
+    STAssertEquals(6u, rowCount, @"There should be six rows in September 2012 starting on Sunday");
 }
 
 #pragma mark Monday first day tests
 
 - (void)testFourRowsInMonth_Monday {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.month = 2;
-    components.year = 2010;
+    NSDate *august2010 = [self dateFromMonth:2 year:2010];
 
-    NSDate *august2010 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSUInteger rowCount = [august2010 rowsOnCalendarStartingOnSunday:NO];
 
-    NSUInteger i = [august2010 rowsOnCalendarStartingOnSunday:NO];
-
-    STAssertEquals(4u, i, @"There should be four rows in February 2010 starting on Monday");
+    STAssertEquals(4u, rowCount, @"There should be four rows in February 2010 starting on Monday");
 }
 
 - (void)testFiveRowsInMonth_Monday {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.month = 8;
-    components.year = 2012;
+    NSDate *august2012 = [self dateFromMonth:8 year:2012];
 
-    NSDate *august2012 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSUInteger rowCount = [august2012 rowsOnCalendarStartingOnSunday:NO];
 
-    NSUInteger i = [august2012 rowsOnCalendarStartingOnSunday:NO];
-
-    STAssertEquals(5u, i, @"There should be six rows in August 2012 starting on Monday");
+    STAssertEquals(5u, rowCount, @"There should be six rows in August 2012 starting on Monday");
 }
 
 - (void)testSixRowsInMonth_Monday {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.month = 7;
-    components.year = 2012;
+    NSDate *july2012 = [self dateFromMonth:7 year:2012];
 
-    NSDate *july2012 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSUInteger rowCount = [july2012 rowsOnCalendarStartingOnSunday:NO];
 
-    NSUInteger i = [july2012 rowsOnCalendarStartingOnSunday:NO];
+    STAssertEquals(6u, rowCount, @"There should be six rows in July 2012 starting on Monday");
+}
 
-    STAssertEquals(6u, i, @"There should be six rows in July 2012 starting on Monday");
+#pragma mark Next Month tests
+
+- (void)testNextMonthMiddleOfYear {
+    NSDate *july2012   = [self dateFromMonth:7 year:2012];
+    NSDate *august2012 = [self dateFromMonth:8 year:2012];
+
+    STAssertEqualObjects([july2012 nextMonth], august2012, @"");
+}
+
+- (void)testNextMonthFromDecember {
+    NSDate *december2011 = [self dateFromMonth:12 year:2011];
+    NSDate *january2012  = [self dateFromMonth:1  year:2012];
+
+    STAssertEqualObjects([december2011 nextMonth], january2012, @"");
+}
+
+#pragma mark Previous Month tests
+
+- (void)testPreviousMonthMiddleOfYear {
+    NSDate *july2012   = [self dateFromMonth:7 year:2012];
+    NSDate *june2012 =   [self dateFromMonth:6 year:2012];
+
+    STAssertEqualObjects([july2012 previousMonth], june2012, @"");
+}
+
+- (void)testPreviousMonthFromJanuary {
+    NSDate *january2012  = [self dateFromMonth:1  year:2012];
+    NSDate *december2011 = [self dateFromMonth:12 year:2011];
+
+    STAssertEqualObjects([january2012 previousMonth], december2011, @"");
 }
 
 @end

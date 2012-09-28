@@ -147,32 +147,30 @@
    	return [gregorian dateFromComponents:comp];
 }
 
-- (NSDate *) nextMonth {
-	TKDateInformation info = [self dateInformationGMT];
-	info.month++;
-	if(info.month>12){
-		info.month = 1;
-		info.year++;
-	}
-	info.minute = 0;
-	info.second = 0;
-	info.hour = 0;
+- (NSDate *)nextMonth {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSMonthCalendarUnit | NSYearCalendarUnit fromDate:self];
+    if (components.month < 12) {
+        components.month = components.month + 1;
+    } else {
+        components.month = 1;
+        components.year = components.year + 1;
+    }
 
-	return [NSDate dateFromDateInformation:info];
+    return [calendar dateFromComponents:components];
 }
 
-- (NSDate *) previousMonth {
-	TKDateInformation info = [self dateInformationGMT];
-	info.month--;
-	if(info.month<1){
-		info.month = 12;
-		info.year--;
-	}
-
-	info.minute = 0;
-	info.second = 0;
-	info.hour = 0;
-	return [NSDate dateFromDateInformation:info];
+- (NSDate *)previousMonth {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSMonthCalendarUnit | NSYearCalendarUnit fromDate:self];
+    if (components.month > 1) {
+        components.month = components.month - 1;
+    } else {
+        components.month = 12;
+        components.year = components.year - 1;
+    }
+    
+    return [calendar dateFromComponents:components];
 }
 
 - (NSArray *)datesInMonth {
