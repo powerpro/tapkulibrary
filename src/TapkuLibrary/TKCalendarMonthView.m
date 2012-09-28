@@ -34,6 +34,7 @@
 #import "TKGlobal.h"
 #import "UIImage+TKCategory.h"
 #import "TKCalendarMonthTiles.h"
+#import "TapkuLibrary.h"
 
 
 #pragma mark -
@@ -219,11 +220,13 @@
     int overlap =  0;
     float y = 0;
 
-   	if (isNext) {
-   		overlap = [newTile.monthDate isEqualToDate:[dates objectAtIndex:0]] ? 0 : 44;
+    if (isNext) {
+        NSInteger weekday = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:[dates firstObject]].weekday;
+        overlap = ((self.sunday && weekday != 1) || (!self.sunday && weekday != 2)) ? 44 : 0;
         y = currentTile.bounds.size.height - overlap;
    	} else {
-   		overlap = [currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
+        NSInteger weekday = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:[dates lastObject]].weekday;
+   		overlap = ((self.sunday && weekday != 7) || (!self.sunday && weekday != 1)) ? 44 : 0;
         y = newTile.bounds.size.height * -1 + overlap + 2;
    	}
 
