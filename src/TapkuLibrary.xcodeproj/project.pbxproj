@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		35CDF38E1A2EA5A70F6CE2E2 /* TKCalendarMonthTiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CDF3B01924C7B619707A9B /* TKCalendarMonthTiles.m */; };
 		35CDF7DA3A46A200E1813891 /* TKCalendarMonthTiles.h in Headers */ = {isa = PBXBuildFile; fileRef = 35CDF660F0EEC50B75BA2CC3 /* TKCalendarMonthTiles.h */; };
+		35CDFA9B863D86C3780E80A4 /* NSDateTkCategoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CDFCF67601C8BF0C1E2844 /* NSDateTkCategoryTest.m */; };
 		3B07B7CA133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B07B7C8133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.h */; };
 		3B07B7CB133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B07B7C9133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.m */; };
 		3B166A6F137F38D7006298E6 /* UIColor+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B166A6D137F38D7006298E6 /* UIColor+TKCategory.h */; };
@@ -124,7 +125,9 @@
 
 /* Begin PBXFileReference section */
 		35CDF3B01924C7B619707A9B /* TKCalendarMonthTiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthTiles.m; sourceTree = "<group>"; };
+		35CDF599D6F26AFB577B83E0 /* NSDateTkCategoryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDateTkCategoryTest.h; path = Tests/NSDateTkCategoryTest.h; sourceTree = "<group>"; };
 		35CDF660F0EEC50B75BA2CC3 /* TKCalendarMonthTiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthTiles.h; sourceTree = "<group>"; };
+		35CDFCF67601C8BF0C1E2844 /* NSDateTkCategoryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDateTkCategoryTest.m; path = Tests/NSDateTkCategoryTest.m; sourceTree = "<group>"; };
 		3B07B7C8133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+TKCategory.h"; sourceTree = "<group>"; };
 		3B07B7C9133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+TKCategory.m"; sourceTree = "<group>"; };
 		3B166A6D137F38D7006298E6 /* UIColor+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TKCategory.h"; sourceTree = "<group>"; };
@@ -324,6 +327,8 @@
 		3B859EDF134C753E00661088 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				35CDFCF67601C8BF0C1E2844 /* NSDateTkCategoryTest.m */,
+				35CDF599D6F26AFB577B83E0 /* NSDateTkCategoryTest.h */,
 				3B45DDF2134C736600D24C1A /* LogicTests-Info.plist */,
 				3B891629134D93D000BD2B31 /* FoundationTests.h */,
 				3B89162A134D93D000BD2B31 /* FoundationTests.m */,
@@ -694,6 +699,7 @@
 				3B4438A815B73C690069AAA3 /* NSStringTests.m in Sources */,
 				3B4438BA15B74A990069AAA3 /* UIViewTests.m in Sources */,
 				3BDE805E15BE3B210010738D /* NSArrayTests.m in Sources */,
+				35CDFA9B863D86C3780E80A4 /* NSDateTkCategoryTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

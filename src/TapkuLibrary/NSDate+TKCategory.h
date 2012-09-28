@@ -78,4 +78,6 @@ typedef struct TKDateInformation TKDateInformation;
 
 - (NSArray *)datesInMonth;
 
+- (NSUInteger)rowsOnCalendarStartingOnSunday:(BOOL)starsOnSunday;
+
 @end

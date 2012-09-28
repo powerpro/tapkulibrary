@@ -31,88 +31,6 @@
 #define dotFontSize 18.0
 #define dateFontSize 22.0
 
-#pragma mark Init Methods
-+ (NSArray*) rangeOfDatesInMonthGrid:(NSDate*)date startOnSunday:(BOOL)sunday{
-
-	NSDate *firstDate, *lastDate;
-
-	TKDateInformation info = [date dateInformationGMT];
-	info.day = 1;
-	info.hour = 0;
-	info.minute = 0;
-	info.second = 0;
-
-	NSDate *currentMonth = [NSDate dateFromDateInformation:info];
-	info = [currentMonth dateInformationGMT];
-
-
-	NSDate *previousMonth = [currentMonth previousMonth];
-	NSDate *nextMonth = [currentMonth nextMonth];
-
-	if(info.weekday > 1 && sunday){
-
-		TKDateInformation info2 = [previousMonth dateInformationGMT];
-
-		int preDayCnt = [previousMonth daysBetweenDate:currentMonth];
-		info2.day = preDayCnt - info.weekday + 2;
-		firstDate = [NSDate dateFromDateInformation:info2];
-
-
-	}else if(!sunday && info.weekday != 2){
-
-		TKDateInformation info2 = [previousMonth dateInformationGMT];
-		int preDayCnt = [previousMonth daysBetweenDate:currentMonth];
-		if(info.weekday==1){
-			info2.day = preDayCnt - 5;
-		}else{
-			info2.day = preDayCnt - info.weekday + 3;
-		}
-		firstDate = [NSDate dateFromDateInformation:info2];
-
-
-
-	}else{
-		firstDate = currentMonth;
-	}
-
-
-
-	int daysInMonth = [currentMonth daysBetweenDate:nextMonth];
-	info.day = daysInMonth;
-	NSDate *lastInMonth = [NSDate dateFromDateInformation:info];
-	TKDateInformation lastDateInfo = [lastInMonth dateInformationGMT];
-
-
-
-	if(lastDateInfo.weekday < 7 && sunday){
-
-		lastDateInfo.day = 7 - lastDateInfo.weekday;
-		lastDateInfo.month++;
-		lastDateInfo.weekday = 0;
-		if(lastDateInfo.month>12){
-			lastDateInfo.month = 1;
-			lastDateInfo.year++;
-		}
-		lastDate = [NSDate dateFromDateInformation:lastDateInfo];
-
-	}else if(!sunday && lastDateInfo.weekday != 1){
-
-
-		lastDateInfo.day = 8 - lastDateInfo.weekday;
-		lastDateInfo.month++;
-		if(lastDateInfo.month>12){ lastDateInfo.month = 1; lastDateInfo.year++; }
-
-
-		lastDate = [NSDate dateFromDateInformation:lastDateInfo];
-
-	}else{
-		lastDate = lastInMonth;
-	}
-
-
-
-	return [NSArray arrayWithObjects:firstDate,lastDate,nil];
-}
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday{
 	if(!(self=[super initWithFrame:CGRectZero])) return nil;
 
@@ -128,12 +46,7 @@
 	NSDate *prev = [self.monthDate previousMonth];
     self.daysInMonth = [[self.monthDate nextMonth] daysBetweenDate:self.monthDate];
 
-
-	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:date startOnSunday:sunday];
-	NSUInteger numberOfDaysBetween = [[dates objectAtIndex:0] daysBetweenDate:[dates lastObject]];
-	NSUInteger scale = (numberOfDaysBetween / 7) + 1;
-	CGFloat h = 44.0f * scale;
-
+	CGFloat h = 44.0f * [date rowsOnCalendarStartingOnSunday:sunday];
 
 	TKDateInformation todayInfo = [[NSDate date] dateInformation];
     self.today = dateInfo.month == todayInfo.month && dateInfo.year == todayInfo.year ? todayInfo.day : -5;

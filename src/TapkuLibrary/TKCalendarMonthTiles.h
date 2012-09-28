@@ -27,9 +27,6 @@
 - (void) selectDay:(int)day;
 - (NSDate*) dateSelected;
 
-+ (NSArray*) rangeOfDatesInMonthGrid:(NSDate*)date startOnSunday:(BOOL)sunday;
-
-
 @property (strong,nonatomic) UIImageView *selectedImageView;
 @property (strong,nonatomic) UILabel *currentDay;
 @property (strong,nonatomic) UILabel *dot;

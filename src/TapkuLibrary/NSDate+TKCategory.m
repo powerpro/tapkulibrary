@@ -192,4 +192,19 @@
     return array;
 }
 
+- (NSUInteger)rowsOnCalendarStartingOnSunday:(BOOL)starsOnSunday {
+    NSInteger weekday = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:self].weekday;
+
+    NSUInteger daysInMonth = [[NSCalendar currentCalendar] rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self].length;
+
+    NSInteger offset = weekday - (starsOnSunday ? 1 : 2);
+    if (offset < 0) offset = 7 + offset;
+
+    NSUInteger daysInMonthWithOffset = daysInMonth + offset;
+
+    NSUInteger rows = (daysInMonthWithOffset / 7) + (daysInMonthWithOffset % 7 == 0 ? 0 : 1);
+
+    return rows;
+}
+
 @end
