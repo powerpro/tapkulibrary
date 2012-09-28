@@ -69,8 +69,7 @@ typedef struct TKDateInformation TKDateInformation;
 
 - (NSString *) monthYearString;
 
-- (TKDateInformation) dateInformation;
-- (TKDateInformation) dateInformationGMT;
+- (TKDateInformation)dateInformation;
 + (NSDate *)dateFromDateInformation:(TKDateInformation)info;
 
 - (NSDate *)nextMonth;

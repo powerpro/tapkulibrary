@@ -39,7 +39,7 @@
 	self.monthDate = date;
     self.startsOnSunday = sunday;
 
-	TKDateInformation dateInfo = [self.monthDate dateInformationGMT];
+	TKDateInformation dateInfo = [self.monthDate dateInformation];
     self.firstWeekday = dateInfo.weekday;
 
 

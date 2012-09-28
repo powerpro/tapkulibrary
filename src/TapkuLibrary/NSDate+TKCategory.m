@@ -84,29 +84,7 @@
     return [dateFormatter stringFromDate:self];
 }
 
-- (TKDateInformation) dateInformationGMT {
-	TKDateInformation info;
-	
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	[gregorian setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	NSDateComponents *comp = [gregorian components:(NSMonthCalendarUnit | NSMinuteCalendarUnit | NSYearCalendarUnit | 
-													NSDayCalendarUnit | NSWeekdayCalendarUnit | NSHourCalendarUnit | NSSecondCalendarUnit) 
-										  fromDate:self];
-	info.day = [comp day];
-	info.month = [comp month];
-	info.year = [comp year];
-	
-	info.hour = [comp hour];
-	info.minute = [comp minute];
-	info.second = [comp second];
-	
-	info.weekday = [comp weekday];
-	
-	
-	return info;
-	
-}
-- (TKDateInformation) dateInformation{
+- (TKDateInformation)dateInformation {
 	
 	TKDateInformation info;
 	
