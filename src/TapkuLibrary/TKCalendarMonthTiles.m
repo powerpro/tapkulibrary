@@ -31,56 +31,6 @@
 #define dotFontSize 18.0
 #define dateFontSize 22.0
 
-#pragma mark Accessibility Container methods
-- (BOOL) isAccessibilityElement{
-    return NO;
-}
-- (NSMutableArray *) accessibleElements{
-    if (_accessibleElements!=nil) return _accessibleElements;
-
-    _accessibleElements = [[NSMutableArray alloc] init];
-
-
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[formatter setDateStyle:NSDateFormatterFullStyle];
-	[formatter setTimeStyle:NSDateFormatterNoStyle];
-	[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-
-	NSDate *firstDate = [self.datesArray objectAtIndex:0];
-
-	for(int i=0;i< self.marks.count;i++){
-		UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
-
-		NSDate *day = [NSDate dateWithTimeIntervalSinceReferenceDate:[firstDate timeIntervalSinceReferenceDate]+(24*60*60*i)+5];
-		element.accessibilityLabel = [formatter stringForObjectValue:day];
-
-		CGRect r = [self convertRect:[self rectForCellAtIndex:i] toView:self.window];
-		r.origin.y -= 6;
-
-		element.accessibilityFrame = r;
-		element.accessibilityTraits = UIAccessibilityTraitButton;
-		element.accessibilityValue = [[self.marks objectAtIndex:i] boolValue] ? @"Has Events" : @"No Events";
-		[_accessibleElements addObject:element];
-
-	}
-
-
-
-    return _accessibleElements;
-}
-- (NSInteger) accessibilityElementCount{
-    return [[self accessibleElements] count];
-}
-- (id) accessibilityElementAtIndex:(NSInteger)index{
-    return [[self accessibleElements] objectAtIndex:index];
-}
-- (NSInteger) indexOfAccessibilityElement:(id)element{
-    return [[self accessibleElements] indexOfObject:element];
-}
-
-
-
 #pragma mark Init Methods
 + (NSArray*) rangeOfDatesInMonthGrid:(NSDate*)date startOnSunday:(BOOL)sunday{
 
