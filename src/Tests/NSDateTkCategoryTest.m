@@ -73,7 +73,7 @@
 
     NSUInteger i = [august2012 rowsOnCalendarStartingOnSunday:NO];
 
-    STAssertEquals(5u, i, @"There should be six rows in July 2012 starting on Monday");
+    STAssertEquals(5u, i, @"There should be six rows in August 2012 starting on Monday");
 }
 
 - (void)testSixRowsInMonth_Monday {
