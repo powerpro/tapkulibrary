@@ -164,27 +164,17 @@
 
     if (tile == nil) return;
 
-	int row = tile.row;
-	int column = tile.column;
-
-	if([date isSameDay:[NSDate date]]){
+    if ([date isSameDay:[NSDate date]])
 		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TODAY_SELECTED_TILE];
-	}else {
-		NSString *path = DATE_SELECTED_TILE;
-		self.selectedImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-	}
+	else
+        self.selectedImageView.image = [[UIImage imageWithContentsOfFile:DATE_SELECTED_TILE] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
 
     NSCalendar *calendar = [NSCalendar currentCalendar];
     self.currentDay.text = [NSString stringWithFormat:@"%d", [calendar components:NSDayCalendarUnit fromDate:date].day];
 
-	if(column < 0){
-		column = 6;
-		row--;
-	}
-
 	CGRect r = self.selectedImageView.frame;
-	r.origin.x = (column*46);
-	r.origin.y = (row*44)-1;
+	r.origin.x = (tile.column * 46);
+	r.origin.y = (tile.row    * 44) - 1;
 	self.selectedImageView.frame = r;
 }
 
