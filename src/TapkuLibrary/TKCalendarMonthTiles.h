@@ -21,15 +21,13 @@
 @property (nonatomic, assign) id <TKCalendarMonthTilesDelegate> delegate;
 
 @property (strong,nonatomic) NSDate *monthDate;
-@property (nonatomic, strong) NSMutableArray *accessibleElements;
 
-- (id) initWithMonth:(NSDate*)date marks:(NSArray*)marks startDayOnSunday:(BOOL)sunday;
+- (id)initWithMonth:(NSDate *)date startDayOnSunday:(BOOL)sunday;
 
 - (void) selectDay:(int)day;
 - (NSDate*)dateSelected;
 
 @property (strong,nonatomic) UIImageView *selectedImageView;
 @property (strong,nonatomic) UILabel *currentDay;
-@property (strong,nonatomic) UILabel *dot;
 
 @end

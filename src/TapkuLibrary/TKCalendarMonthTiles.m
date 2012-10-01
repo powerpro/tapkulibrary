@@ -28,8 +28,6 @@
 @property (nonatomic) int firstWeekday;
 @property (nonatomic) int daysInMonth;
 
-@property (nonatomic, strong) NSArray *marks;
-
 @property (nonatomic, strong) TKCalendarMonthTilesTile *selectedTile;
 
 @property (nonatomic, strong) NSArray *tiles;
@@ -77,10 +75,9 @@
     return array;
 }
 
-- (id) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday{
+- (id)initWithMonth:(NSDate *)date startDayOnSunday:(BOOL)sunday {
 	if(!(self=[super initWithFrame:CGRectZero])) return nil;
 
-    self.marks = markArray;
 	self.monthDate = date;
     self.startsOnSunday = sunday;
 
@@ -99,7 +96,6 @@
 	self.frame = CGRectMake(0, 1.0, 320.0f, h+1);
 
 	[self.selectedImageView addSubview:self.currentDay];
-	[self.selectedImageView addSubview:self.dot];
 	self.multipleTouchEnabled = NO;
 
 	return self;
@@ -179,19 +175,6 @@
 
 	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
 
-	if ([self.marks count] > 0) {
-
-		if([[self.marks objectAtIndex:row * 7 + column] boolValue]){
-			[self.selectedImageView addSubview:self.dot];
-		}else{
-			[self.dot removeFromSuperview];
-		}
-
-
-	}else{
-		[self.dot removeFromSuperview];
-	}
-
 	if(column < 0){
 		column = 6;
 		row--;
@@ -241,15 +224,6 @@
 
 	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
 
-	if ([self.marks count] > 0) {
-		if([[self.marks objectAtIndex:row * 7 + column] boolValue])
-			[self.selectedImageView addSubview:self.dot];
-		else
-			[self.dot removeFromSuperview];
-	}else{
-		[self.dot removeFromSuperview];
-	}
-
 	CGRect r = self.selectedImageView.frame;
 	r.origin.x = (column * 46);
 	r.origin.y = (row * 44)-1;
@@ -289,23 +263,7 @@
 	}
 	return _currentDay;
 }
-- (UILabel *) dot{
-	if(_dot ==nil){
-		CGRect r = self.selectedImageView.bounds;
-		r.origin.y += 29;
-		r.size.height -= 31;
-		_dot = [[UILabel alloc] initWithFrame:r];
 
-		_dot.text = @"•";
-		_dot.textColor = [UIColor whiteColor];
-		_dot.backgroundColor = [UIColor clearColor];
-		_dot.font = [UIFont boldSystemFontOfSize:dotFontSize];
-		_dot.textAlignment = NSTextAlignmentCenter;
-		_dot.shadowColor = [UIColor darkGrayColor];
-		_dot.shadowOffset = CGSizeMake(0, -1);
-	}
-	return _dot;
-}
 - (UIImageView *) selectedImageView{
 	if(_selectedImageView ==nil){
 

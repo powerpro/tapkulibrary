@@ -214,7 +214,7 @@
         }
     }
 
-   	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month marks:array startDayOnSunday:self.sunday];
+   	TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:month startDayOnSunday:self.sunday];
     newTile.delegate = self;
 
     TKCalendarMonthTiles *currentTile = _currentTile;
