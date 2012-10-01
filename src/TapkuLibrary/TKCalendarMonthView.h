@@ -88,13 +88,13 @@
  */ 
 - (void) calendarMonthView:(TKCalendarMonthView *)monthView didSelectDate:(NSDate *)date;
 
-/** The calendar should change the current month to grid shown.
+/** The calendar can change the current month to grid shown.
  @param monthView The calendar month view.
  @param month The month date.
  @param animated Animation flag
- @return YES if the month should change. NO otherwise
- */ 
-- (BOOL)calendarMonthView:(TKCalendarMonthView *)monthView monthShouldChange:(NSDate *)month animated:(BOOL)animated;
+ @return YES if the month can change. NO otherwise
+ */
+- (BOOL)calendarMonthView:(TKCalendarMonthView *)monthView monthCanChange:(NSDate *)month;
 
 /** The calendar will change the current month to grid shown.
  @param monthView The calendar month view.
@@ -123,6 +123,15 @@
  @return Returns YES if the day should show a mark, NO if not.
  
  */
-- (BOOL *)calendarMonthView:(TKCalendarMonthView *)monthView marksDate:(NSDate *)date;
+- (BOOL)calendarMonthView:(TKCalendarMonthView *)monthView marksDate:(NSDate *)date;
+
+/** A data source that will specify if a date is selectable or not.
+
+ @param monthView The calendar month grid.
+ @param date The date shown by the calendar month grid.
+ @return Returns YES if the day should allow selection, NO if not
+
+ */
+- (BOOL)calendarMonthView:(TKCalendarMonthView *)monthView canSelectDate:(NSDate *)date;
 
 @end

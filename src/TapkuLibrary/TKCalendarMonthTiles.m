@@ -14,6 +14,7 @@
 @property (nonatomic) NSUInteger row;
 @property (nonatomic) NSUInteger column;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic) BOOL selectable;
 
 @end
 
@@ -104,6 +105,13 @@
 	return self;
 }
 
+- (void)setDelegate:(id <TKCalendarMonthTilesDelegate>)delegate {
+    _delegate = delegate;
+
+    for (TKCalendarMonthTilesTile *tile in self.tiles)
+        tile.selectable = [self.delegate calendarMonthTiles:self canSelectDate:tile.date];
+}
+
 - (void)drawTileInRect:(CGRect)rect day:(int)day font:(UIFont *)font color:(UIColor *)color {
 	NSString *str = [NSString stringWithFormat:@"%d",day];
 
@@ -130,7 +138,10 @@
         NSInteger day = [calendar components:NSDayCalendarUnit fromDate:dayTile.date].day;
         CGRect dayRect = CGRectMake(dayTile.column * 46, dayTile.row * 44 + 6, 47, 45);
 
-        UIColor *color = [[dayTile.date monthDate] isEqualToDate:self.monthDate] ? [UIColor colorWithRed:59 / 255. green:73 / 255. blue:88 / 255. alpha:1] : [UIColor grayColor];
+        UIColor *color = [[dayTile.date monthDate] isEqualToDate:self.monthDate] ? [UIColor colorWithHex:0x006AD4] : [UIColor grayColor];
+
+        if (!dayTile.selectable && [self.monthDate isEqualToDate:[dayTile.date monthDate]])
+            color = [UIColor colorWithRed:59 / 255. green:73 / 255. blue:88 / 255. alpha:1];
 
         if (self.today == day && [[dayTile.date monthDate] isEqualToDate:self.monthDate]) {
             CGRect todayTileRect = dayRect;
@@ -201,7 +212,7 @@
     int row    = (int) (point.y / 44);
 
     for (TKCalendarMonthTilesTile *tile in self.tiles)
-        if (tile.column == column && tile.row == row)
+        if (tile.selectable && tile.column == column && tile.row == row)
             return tile;
 
     return nil;
@@ -212,7 +223,7 @@
 	if(p.y > self.bounds.size.height || p.y < 0) return;
 
     TKCalendarMonthTilesTile *tile = [self tileAtPoint:p];
-    if (self.selectedTile == tile) return;
+    if (self.selectedTile == tile || tile == nil) return;
     self.selectedTile = tile;
 
 	int column = tile.column;

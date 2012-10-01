@@ -177,6 +177,12 @@
 
 #pragma mark TKCalendarMonthTilesDelegate
 
+- (BOOL)calendarMonthTiles:(TKCalendarMonthTiles *)monthTiles canSelectDate:(NSDate *)date {
+    if ([self.dataSource respondsToSelector:@selector(calendarMonthView:canSelectDate:)])
+        return [self.dataSource calendarMonthView:self canSelectDate:date];
+    return YES;
+}
+
 - (void)dateWasSelected:(NSDate *)date {
     [self selectDate:date animated:YES];
     if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
@@ -188,7 +194,7 @@
 - (void)updateViewToMonth:(NSDate *)month animated:(BOOL)animated {
     if ([[self monthDate] isEqualToDate:month]) return;
 
-    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:month animated:animated])
+    if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthCanChange:)] && ![self.delegate calendarMonthView:self monthCanChange:month])
    		return;
 
     if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthWillChange:animated:)] )
@@ -264,6 +270,10 @@
         if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
       	    [self.delegate calendarMonthView:self monthDidChange:[newTile monthDate] animated:animated];
     }];
+
+    BOOL delegateRespondsToMonthCanChange = [self.delegate respondsToSelector:@selector(calendarMonthView:monthCanChange:)];
+    self.rightArrow.enabled = delegateRespondsToMonthCanChange ? [self.delegate calendarMonthView:self monthCanChange:[newTile.monthDate nextMonth]]     : YES;
+    self.leftArrow.enabled  = delegateRespondsToMonthCanChange ? [self.delegate calendarMonthView:self monthCanChange:[newTile.monthDate previousMonth]] : YES;
 }
 
 @end

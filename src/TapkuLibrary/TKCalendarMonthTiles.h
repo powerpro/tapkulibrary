@@ -11,6 +11,7 @@
 
 @protocol TKCalendarMonthTilesDelegate
 
+- (BOOL)calendarMonthTiles:(TKCalendarMonthTiles *)monthTiles canSelectDate:(NSDate *)date;
 - (void)dateWasSelected:(NSDate *)date;
 
 @end
