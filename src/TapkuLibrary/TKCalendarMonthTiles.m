@@ -152,30 +152,30 @@
     }
 }
 
-- (void) selectDay:(int)day{
-    TKCalendarMonthTilesTile *tile;
+- (void)selectDate:(NSDate *)date {
+    TKCalendarMonthTilesTile *tile = nil;
 
     for (TKCalendarMonthTilesTile *dayTile in self.tiles) {
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger d = [calendar components:NSDayCalendarUnit fromDate:dayTile.date].day;
-
-        if (day == d && [[dayTile.date monthDate] isEqualToDate:self.monthDate]) {
+        if ([dayTile.date isEqualToDate:date]) {
             tile = dayTile;
             break;
         }
     }
 
+    if (tile == nil) return;
+
 	int row = tile.row;
 	int column = tile.column;
 
-	if(day == self.today){
+	if([date isSameDay:[NSDate date]]){
 		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TODAY_SELECTED_TILE];
 	}else {
 		NSString *path = DATE_SELECTED_TILE;
 		self.selectedImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
 	}
 
-	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    self.currentDay.text = [NSString stringWithFormat:@"%d", [calendar components:NSDayCalendarUnit fromDate:date].day];
 
 	if(column < 0){
 		column = 6;
