@@ -29,12 +29,15 @@
 @property (nonatomic) int daysInMonth;
 
 @property (nonatomic, strong) TKCalendarMonthTilesTile *selectedTile;
+@property (nonatomic, strong, readonly) UILabel *currentDay;
 
 @property (nonatomic, strong) NSArray *tiles;
 
 @end
 
-@implementation TKCalendarMonthTiles
+@implementation TKCalendarMonthTiles {
+    UILabel *_currentDay;
+}
 
 #define dotFontSize 18.0
 #define dateFontSize 22.0
@@ -95,7 +98,6 @@
 
 	self.frame = CGRectMake(0, 1.0, 320.0f, h+1);
 
-	[self.selectedImageView addSubview:self.currentDay];
 	self.multipleTouchEnabled = NO;
 
 	return self;
@@ -271,6 +273,7 @@
 		UIImage *img = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
 		_selectedImageView = [[UIImageView alloc] initWithImage:img];
 		_selectedImageView.frame = CGRectMake(0, 0, 47, 45);
+        [self.selectedImageView addSubview:self.currentDay];
         [self addSubview:_selectedImageView];
 	}
 	return _selectedImageView;

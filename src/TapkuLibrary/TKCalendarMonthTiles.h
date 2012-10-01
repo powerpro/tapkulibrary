@@ -28,6 +28,5 @@
 - (NSDate*)dateSelected;
 
 @property (strong,nonatomic) UIImageView *selectedImageView;
-@property (strong,nonatomic) UILabel *currentDay;
 
 @end
