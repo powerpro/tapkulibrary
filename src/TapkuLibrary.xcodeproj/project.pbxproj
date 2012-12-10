@@ -120,6 +120,19 @@
 		3BEE1CBC12CFB78300FECF6D /* TKProgressCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE1CBA12CFB78300FECF6D /* TKProgressCircleView.m */; };
 		3BF9A833159791EA002A7F9E /* TKShapeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BF9A831159791EA002A7F9E /* TKShapeView.h */; };
 		3BF9A834159791EA002A7F9E /* TKShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF9A832159791EA002A7F9E /* TKShapeView.m */; };
+		A5AB3A441675EF3D0002240B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		A5AB3A501675EF5F0002240B /* TKCalendarMonthTiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 35CDF3B01924C7B619707A9B /* TKCalendarMonthTiles.m */; };
+		A5AB3A511675EF5F0002240B /* TKCalendarMonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAC99FF10953E2400F235F1 /* TKCalendarMonthViewController.m */; };
+		A5AB3A521675EF5F0002240B /* TKCalendarMonthTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B879FC5109BFC07002012FD /* TKCalendarMonthTableViewController.m */; };
+		A5AB3A531675EF5F0002240B /* TKCalendarMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9724BA11C54C5C0027A97F /* TKCalendarMonthView.m */; };
+		A5AB3A561675EF890002240B /* TKCalendarMonthTiles.h in Headers */ = {isa = PBXBuildFile; fileRef = 35CDF660F0EEC50B75BA2CC3 /* TKCalendarMonthTiles.h */; };
+		A5AB3A571675EF890002240B /* TKCalendarMonthViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BAC99FE10953E2400F235F1 /* TKCalendarMonthViewController.h */; };
+		A5AB3A581675EF890002240B /* TKCalendarMonthTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B879FC4109BFC07002012FD /* TKCalendarMonthTableViewController.h */; };
+		A5AB3A591675EF890002240B /* TKCalendarMonthView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B9724B911C54C5C0027A97F /* TKCalendarMonthView.h */; };
+		A5AB3A601675F1230002240B /* TKGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAC9A1E10953E5200F235F1 /* TKGlobal.m */; };
+		A5AB3A611675F14F0002240B /* NSDate+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAC9A2410953E5200F235F1 /* NSDate+TKCategory.m */; };
+		A5AB3A621675F2A90002240B /* UIImage+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAC9A2010953E5200F235F1 /* UIImage+TKCategory.m */; };
+		A5AB3A661675F3AB0002240B /* UIColor+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B166A6E137F38D7006298E6 /* UIColor+TKCategory.m */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -236,6 +249,7 @@
 		3BF000FD10957EE50062DA49 /* NSString+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TKCategory.m"; sourceTree = "<group>"; };
 		3BF9A831159791EA002A7F9E /* TKShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKShapeView.h; sourceTree = "<group>"; };
 		3BF9A832159791EA002A7F9E /* TKShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKShapeView.m; sourceTree = "<group>"; };
+		A5AB3A431675EF3D0002240B /* libTapkuCalendar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTapkuCalendar.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA747D9E0F9514B9006C5449 /* TapkuLibrary_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapkuLibrary_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libTapkuLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTapkuLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,6 +265,14 @@
 				3B859EAF134C73E500661088 /* MapKit.framework in Frameworks */,
 				3B859EB0134C73EF00661088 /* QuartzCore.framework in Frameworks */,
 				3B859EC6134C74D800661088 /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5AB3A401675EF3D0002240B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5AB3A441675EF3D0002240B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +296,7 @@
 			children = (
 				D2AAC07E0554694100DB518D /* libTapkuLibrary.a */,
 				3B45DDF1134C736600D24C1A /* LogicTests.octest */,
+				A5AB3A431675EF3D0002240B /* libTapkuCalendar.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -538,6 +561,17 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A5AB3A551675EF7F0002240B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5AB3A561675EF890002240B /* TKCalendarMonthTiles.h in Headers */,
+				A5AB3A571675EF890002240B /* TKCalendarMonthViewController.h in Headers */,
+				A5AB3A581675EF890002240B /* TKCalendarMonthTableViewController.h in Headers */,
+				A5AB3A591675EF890002240B /* TKCalendarMonthView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2AAC07A0554694100DB518D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -614,6 +648,23 @@
 			productReference = 3B45DDF1134C736600D24C1A /* LogicTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		A5AB3A421675EF3D0002240B /* TapkuCalendar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5AB3A4E1675EF3D0002240B /* Build configuration list for PBXNativeTarget "TapkuCalendar" */;
+			buildPhases = (
+				A5AB3A551675EF7F0002240B /* Headers */,
+				A5AB3A3F1675EF3D0002240B /* Sources */,
+				A5AB3A401675EF3D0002240B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TapkuCalendar;
+			productName = TapkuCalendar;
+			productReference = A5AB3A431675EF3D0002240B /* libTapkuCalendar.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		D2AAC07D0554694100DB518D /* TapkuLibrary */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "TapkuLibrary" */;
@@ -655,6 +706,7 @@
 			projectRoot = "";
 			targets = (
 				D2AAC07D0554694100DB518D /* TapkuLibrary */,
+				A5AB3A421675EF3D0002240B /* TapkuCalendar */,
 				3B45DDF0134C736600D24C1A /* LogicTests */,
 			);
 		};
@@ -700,6 +752,21 @@
 				3B4438BA15B74A990069AAA3 /* UIViewTests.m in Sources */,
 				3BDE805E15BE3B210010738D /* NSArrayTests.m in Sources */,
 				35CDFA9B863D86C3780E80A4 /* NSDateTkCategoryTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5AB3A3F1675EF3D0002240B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5AB3A501675EF5F0002240B /* TKCalendarMonthTiles.m in Sources */,
+				A5AB3A511675EF5F0002240B /* TKCalendarMonthViewController.m in Sources */,
+				A5AB3A521675EF5F0002240B /* TKCalendarMonthTableViewController.m in Sources */,
+				A5AB3A531675EF5F0002240B /* TKCalendarMonthView.m in Sources */,
+				A5AB3A601675F1230002240B /* TKGlobal.m in Sources */,
+				A5AB3A611675F14F0002240B /* NSDate+TKCategory.m in Sources */,
+				A5AB3A621675F2A90002240B /* UIImage+TKCategory.m in Sources */,
+				A5AB3A661675F3AB0002240B /* UIColor+TKCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,8 +887,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-				);
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
@@ -839,8 +905,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-				);
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};
@@ -906,6 +971,49 @@
 			};
 			name = Release;
 		};
+		A5AB3A4C1675EF3D0002240B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/TapkuCalendar.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TapkuLibrary_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A5AB3A4D1675EF3D0002240B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DSTROOT = /tmp/TapkuCalendar.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TapkuLibrary_Prefix.pch;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -935,6 +1043,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		A5AB3A4E1675EF3D0002240B /* Build configuration list for PBXNativeTarget "TapkuCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5AB3A4C1675EF3D0002240B /* Debug */,
+				A5AB3A4D1675EF3D0002240B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
