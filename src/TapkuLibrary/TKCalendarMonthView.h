@@ -56,6 +56,10 @@
  */
 - (NSDate*) dateSelected;
 
+/** The coordinates of the dateSelected draw area.
+ @return A `CGRect` struct with the coordinates of the dateSelected tile if any, and CGRectNull otherwise.
+ */
+- (CGRect) rectForSelectedDate;
 
 /** The current month date being displayed. 
  @return An `NSDate` object set to the month and year of the current month grid.

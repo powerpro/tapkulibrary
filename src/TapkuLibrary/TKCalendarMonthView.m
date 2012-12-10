@@ -156,6 +156,13 @@
 	return [self.currentTile dateSelected];
 }
 
+- (CGRect) rectForSelectedDate {
+    UIImageView *selectedImageView = [self.currentTile selectedImageView];
+    return (selectedImageView
+            ? [selectedImageView convertRect:selectedImageView.bounds toView:self]
+            : CGRectNull);
+}
+
 - (NSDate *)monthDate {
 	return [self.currentTile monthDate];
 }
