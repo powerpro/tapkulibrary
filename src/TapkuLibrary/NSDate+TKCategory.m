@@ -81,7 +81,7 @@
 
 - (NSString *) monthYearString {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+    dateFormatter.timeZone = [self calendar].timeZone;
 	dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yMMMM"
 															   options:0
 																locale:[NSLocale currentLocale]];
