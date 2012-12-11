@@ -109,24 +109,17 @@
 
     self.backgroundColor = [UIColor grayColor];
 
-    UILabel *sundayLabel    = [self dayLabelWithText:@"Sun" accessibilityLabel:@"Sunday"];
-    UILabel *mondayLabel    = [self dayLabelWithText:@"Mon" accessibilityLabel:@"Monday"];
-    UILabel *tuesdayLabel   = [self dayLabelWithText:@"Tue" accessibilityLabel:@"Tuesday"];
-    UILabel *wednesdayLabel = [self dayLabelWithText:@"Wed" accessibilityLabel:@"Wednesday"];
-    UILabel *thursdayLabel  = [self dayLabelWithText:@"Thu" accessibilityLabel:@"Thursday"];
-    UILabel *fridayLabel    = [self dayLabelWithText:@"Fri" accessibilityLabel:@"Friday"];
-    UILabel *saturdayLabel  = [self dayLabelWithText:@"Sat" accessibilityLabel:@"Saturday"];
-
-    NSArray *ar;
-   	if(self.sunday)
-        ar = [NSArray arrayWithObjects:sundayLabel, mondayLabel, tuesdayLabel, wednesdayLabel, thursdayLabel, fridayLabel, saturdayLabel, nil];
-   	else
-        ar = [NSArray arrayWithObjects:mondayLabel, tuesdayLabel, wednesdayLabel, thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, nil];
-
-    for (NSUInteger i = 0; i < [ar count]; i++) {
-        UILabel *label = [ar objectAtIndex:i];
-        label.frame = CGRectMake(46 * i, 29, 46, 15);
-        [self addSubview:label];
+    // Add column labels for each weekday (adjusting based on the current locale's first weekday)
+    NSDateFormatter *weekdayDateFormatter = [NSDateFormatter new];
+    NSArray *weekdayNames     = [weekdayDateFormatter shortWeekdaySymbols];
+    NSArray *fullWeekdayNames = [weekdayDateFormatter standaloneWeekdaySymbols];
+    NSUInteger firstWeekday = [[NSCalendar currentCalendar] firstWeekday];
+    NSUInteger i = firstWeekday - 1;
+    for (CGFloat xOffset = 0.f; xOffset < self.bounds.size.width; xOffset += 46.f, i = (i+1)%7) {        
+        UILabel *weekdayLabel = [self dayLabelWithText:[weekdayNames objectAtIndex:i]
+                                    accessibilityLabel:[fullWeekdayNames objectAtIndex:i]];
+        weekdayLabel.frame = CGRectMake(xOffset, 29, 46, 15);
+        [self addSubview:weekdayLabel];
     }
 }
 
