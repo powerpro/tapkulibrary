@@ -158,7 +158,7 @@
     TKCalendarMonthTilesTile *tile = nil;
 
     for (TKCalendarMonthTilesTile *dayTile in self.tiles) {
-        if ([dayTile.date isEqualToDate:date]) {
+        if ([dayTile.date isSameDay:date]) {
             tile = dayTile;
             break;
         }
