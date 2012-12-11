@@ -141,7 +141,7 @@
                           : [UIColor grayColor]);
 
         if (!dayTile.selectable && [self.monthDate isEqualToDate:[dayTile.date monthDate]])
-            color = [UIColor colorWithRed:59 / 255. green:73 / 255. blue:88 / 255. alpha:1];
+            color = [UIColor colorWithRed:0.438 green:0.492 blue:0.550 alpha:1.000];
 
         if (self.today == day && [[dayTile.date monthDate] isEqualToDate:self.monthDate]) {
             CGRect todayTileRect = dayRect;
