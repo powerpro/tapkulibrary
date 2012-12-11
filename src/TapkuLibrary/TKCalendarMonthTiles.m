@@ -136,7 +136,9 @@
         NSInteger day = [calendar components:NSDayCalendarUnit fromDate:dayTile.date].day;
         CGRect dayRect = CGRectMake(dayTile.column * 46, dayTile.row * 44 + 6, 47, 45);
 
-        UIColor *color = [[dayTile.date monthDate] isEqualToDate:self.monthDate] ? [UIColor colorWithHex:0x006AD4] : [UIColor grayColor];
+        UIColor *color = ([[dayTile.date monthDate] isEqualToDate:self.monthDate]
+                          ? [UIColor colorWithRed:0.224 green:0.278 blue:0.337 alpha:1.000]
+                          : [UIColor grayColor]);
 
         if (!dayTile.selectable && [self.monthDate isEqualToDate:[dayTile.date monthDate]])
             color = [UIColor colorWithRed:59 / 255. green:73 / 255. blue:88 / 255. alpha:1];
