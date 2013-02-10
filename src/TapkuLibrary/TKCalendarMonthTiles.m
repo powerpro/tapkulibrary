@@ -105,9 +105,13 @@
 
 - (void)setDelegate:(id <TKCalendarMonthTilesDelegate>)delegate {
     _delegate = delegate;
+    [self updateSelectableDays];
+}
 
-    for (TKCalendarMonthTilesTile *tile in self.tiles)
+- (void)updateSelectableDays {
+    for (TKCalendarMonthTilesTile *tile in self.tiles) {
         tile.selectable = [self.delegate calendarMonthTiles:self canSelectDate:tile.date];
+    }
 }
 
 - (void)drawTileInRect:(CGRect)rect day:(int)day font:(UIFont *)font color:(UIColor *)color {
@@ -139,7 +143,6 @@
         UIColor *color = ([[dayTile.date monthDate] isEqualToDate:self.monthDate]
                           ? [UIColor colorWithRed:0.224 green:0.278 blue:0.337 alpha:1.000]
                           : [UIColor grayColor]);
-
         if (!dayTile.selectable && [self.monthDate isEqualToDate:[dayTile.date monthDate]])
             color = [UIColor colorWithRed:0.438 green:0.492 blue:0.550 alpha:1.000];
 
@@ -165,18 +168,20 @@
     }
 
     if (tile == nil) return;
-
-    if ([date isSameDay:[NSDate date]])
+    
+    if(![[tile.date monthDate] isEqualToDate:self.monthDate])
+		self.selectedImageView.image = [UIImage imageWithContentsOfFile:DATE_GRAY_TILE];
+    else if ([date isSameDay:[NSDate date]])
 		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TODAY_SELECTED_TILE];
 	else
         self.selectedImageView.image = [[UIImage imageWithContentsOfFile:DATE_SELECTED_TILE] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
 
     NSCalendar *calendar = [NSCalendar currentCalendar];
     self.currentDay.text = [NSString stringWithFormat:@"%d", [calendar components:NSDayCalendarUnit fromDate:date].day];
-
-	CGRect r = self.selectedImageView.frame;
-	r.origin.x = (tile.column * 46);
-	r.origin.y = (tile.row    * 44) - 1;
+    NSLog(@"tile column %d and row %d", tile.column, tile.row);
+    NSNumber *row = [NSNumber numberWithInt:tile.row];
+    CGFloat xpos = (row.floatValue * 44) - 1;
+    CGRect r = CGRectMake(tile.column * 46, xpos, self.selectedImageView.frame.size.width, self.selectedImageView.frame.size.height);
 	self.selectedImageView.frame = r;
 }
 
@@ -202,26 +207,6 @@
     TKCalendarMonthTilesTile *tile = [self tileAtPoint:p];
     if (self.selectedTile == tile || tile == nil) return;
     self.selectedTile = tile;
-
-	int column = tile.column;
-    int row = tile.row;
-    int day = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:tile.date].day;
-
-	if(![[tile.date monthDate] isEqualToDate:self.monthDate]) {
-		self.selectedImageView.image = [UIImage imageWithContentsOfFile:DATE_GRAY_TILE];
-	} else if(day == self.today){
-		self.selectedImageView.image = [UIImage imageWithContentsOfFile:TODAY_SELECTED_TILE];
-	} else {
-		NSString *path = DATE_SELECTED_TILE;
-		self.selectedImageView.image = [[UIImage imageWithContentsOfFile:path] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-	}
-
-	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
-
-	CGRect r = self.selectedImageView.frame;
-	r.origin.x = (column * 46);
-	r.origin.y = (row * 44)-1;
-	self.selectedImageView.frame = r;
 
     [self.delegate dateWasSelected:tile.date];
 }

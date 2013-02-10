@@ -26,6 +26,7 @@
 
 - (void)selectDate:(NSDate *)date;
 - (NSDate*)dateSelected;
+- (void)updateSelectableDays;
 
 @property (strong,nonatomic) UIImageView *selectedImageView;
 

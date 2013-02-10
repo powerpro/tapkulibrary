@@ -137,6 +137,12 @@
     return self;
 }
 
+- (void)setDataSource:(id<TKCalendarMonthViewDataSource>)dataSource {
+    _dataSource = dataSource;
+    // we do this because updating the datasource needs to retrigger the selectable days api
+    [self.currentTile updateSelectableDays];
+}
+
 - (void)nextMonthPressed {
     [self updateViewToMonth:[self.currentTile.monthDate nextMonth] animated:YES];
 }
