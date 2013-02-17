@@ -70,7 +70,6 @@
             tile.column = col;
             NSDate *date = [month dateByAddingDays:(row * 7) + col - offset];
             tile.date = date;
-
             [array addObject:tile];
         }
     }
@@ -183,6 +182,7 @@
     CGFloat xpos = (row.floatValue * 44) - 1;
     CGRect r = CGRectMake(tile.column * 46, xpos, self.selectedImageView.frame.size.width, self.selectedImageView.frame.size.height);
 	self.selectedImageView.frame = r;
+    self.selectedTile = tile;
 }
 
 - (NSDate *)dateSelected {
