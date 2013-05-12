@@ -113,8 +113,8 @@
     NSDateFormatter *weekdayDateFormatter = [NSDateFormatter new];
     NSArray *weekdayNames     = [weekdayDateFormatter shortWeekdaySymbols];
     NSArray *fullWeekdayNames = [weekdayDateFormatter standaloneWeekdaySymbols];
-    NSUInteger firstWeekday = [[NSCalendar currentCalendar] firstWeekday];
-    NSUInteger i = firstWeekday - 1;
+//    NSUInteger firstWeekday = [[NSCalendar currentCalendar] firstWeekday];
+    NSUInteger i = self.sunday ? 0 : 1;
     for (CGFloat xOffset = 0.f; xOffset < self.bounds.size.width; xOffset += 46.f, i = (i+1)%7) {        
         UILabel *weekdayLabel = [self dayLabelWithText:[weekdayNames objectAtIndex:i]
                                     accessibilityLabel:[fullWeekdayNames objectAtIndex:i]];
