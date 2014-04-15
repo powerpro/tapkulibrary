@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name          = 'TapkuLibrary'
+  s.name          = 'Tapku'
   s.version       = '2.1'
   s.platform      = :ios
   s.author        = { 'Devin Ross' => 'devin@devinsheaven.com' }
