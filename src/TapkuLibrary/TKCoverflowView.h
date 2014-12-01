@@ -78,16 +78,16 @@
 @property (nonatomic, assign) CGSize coverSize;
 
 /** The total number cover views in the coverflow view. Changing this property will cause the coverflow to reload data. */
-@property (nonatomic, assign) int numberOfCovers;
+@property (nonatomic, assign) NSInteger numberOfCovers;
 
 /** The spacing between cover views */
-@property (nonatomic, assign) float coverSpacing;
+@property (nonatomic, assign) CGFloat coverSpacing;
 
 /** The angle which covers will be display at when they are not on the center. */
-@property (nonatomic, assign) float coverAngle;
+@property (nonatomic, assign) CGFloat coverAngle;
 
 /** The amount of space the center cover is infront of the rest of the other covers. Default is 300. */
-@property (nonatomic, assign) float spaceInFront;
+@property (nonatomic, assign) CGFloat spaceInFront;
 
 
 
